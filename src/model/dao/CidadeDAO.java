@@ -115,7 +115,7 @@ public class CidadeDAO {
                 cidade.setIdcidade(rs.getInt("idcidade"));
                 cidade.setNome(rs.getString("nome"));
                 
-//Como colocar na lista a chave estrangeira 
+                //Como colocar na lista a chave estrangeira 
                 Estado estado = new Estado();
                 estado.setIdestado(rs.getInt("estado_idestado"));
 //                estado.setNome(rs.getString("nome"));
@@ -145,7 +145,10 @@ public class CidadeDAO {
         List<Cidade> cidades = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT c.idcidade, c.nome as cidnome, e.idestado, e.nome as estnome, e.uf FROM cidade c INNER JOIN estado e on c.estado_idestado = e.idestado");
+            stmt = con.prepareStatement("SELECT c.idcidade, c.nome as cidnome, e.idestado, e.nome as estnome, e.uf"
+                    + " FROM cidade c"
+                    + " INNER JOIN estado e"
+                    + " on c.estado_idestado = e.idestado");
             rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -187,7 +190,8 @@ public class CidadeDAO {
         try {
             stmt = con.prepareStatement("SELECT c.idcidade, c.nome as cidnome, e.idestado, e.nome as estnome, e.uf "
                     + "FROM cidade c "
-                    + "INNER JOIN estado e on c.estado_idestado = e.idestado WHERE c.nome LIKE ?");
+                    + "INNER JOIN estado e"
+                    + " on c.estado_idestado = e.idestado WHERE c.nome LIKE ?");
             stmt.setString(1, "%" + nome + "%");
             
             rs = stmt.executeQuery();
@@ -227,7 +231,9 @@ public class CidadeDAO {
         List<Cidade> cidades = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT * FROM cidade as c INNER JOIN estado as e ON c.estado_idestado = e.idestado WHERE e.idestado = ?");
+            stmt = con.prepareStatement("SELECT * FROM cidade as c"
+                    + " INNER JOIN estado as e"
+                    + " ON c.estado_idestado = e.idestado WHERE e.idestado = ?");
             stmt.setInt(1, indice);
             rs = stmt.executeQuery();
 

@@ -43,10 +43,10 @@ public class OsDAOTest {
         os.setTecnico("zé");
         os.setHr_inic("08:30");
         os.setServico("REPARO NA FIAÇÃO");
-        os.setUso_peca(Boolean.FALSE);
-        os.setEquip_retirado(Boolean.FALSE);
+        os.setUso_peca("NÃO");
+        os.setEquip_retirado("NÃO");
         os.setObs("teste");
-        os.setAberta_fech(Boolean.TRUE);
+        os.setAberta_fech("NÃO");
         os.setHr_fim("15:30");
         
         os.setTiposerv(tipserv);
@@ -55,7 +55,7 @@ public class OsDAOTest {
         
         OsDAO dao = new OsDAO();
         
-        if(dao.save(os)){
+        if(dao.saveAberturaOs(os)){
             System.out.println("Salvo com sucesso!! ");
             
         }else{
@@ -85,10 +85,10 @@ public class OsDAOTest {
         os.setTecnico("zé");
         os.setHr_inic("08:30");
         os.setServico("Limpeza e lubrificação");
-        os.setUso_peca(Boolean.FALSE);
-        os.setEquip_retirado(Boolean.FALSE);
+        os.setUso_peca("NÃO");
+        os.setEquip_retirado("NÃO");
         os.setObs("teste com o cliente");
-        os.setAberta_fech(Boolean.FALSE);
+        os.setAberta_fech("NÃO");
         os.setHr_fim("15:30");
         
         os.setTiposerv(tipserv);
@@ -98,7 +98,7 @@ public class OsDAOTest {
         
         OsDAO dao = new OsDAO();
         
-        if(dao.update(os)){
+        if(dao.updateAbertura(os)){
             System.out.println("Atualizado com sucesso!! ");
             
         }else{

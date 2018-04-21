@@ -77,4 +77,9 @@ public class Peca {
     public void setOs(Os os) {
         this.os = os;
     }
+
+    @Override
+    public String toString() {
+        return "Qtd = " +getQtd() + " - " + getDescricao() + " - " + "R$" +getPreco(); //To change body of generated methods, choose Tools | Templates.
+    }
 }

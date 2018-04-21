@@ -52,7 +52,7 @@ public class FornecedorDAOTest {
         
         FornecedorDAO dao = new FornecedorDAO();
         
-        if(dao.save(fornecedor)){
+        if(dao.saveFornecedor(fornecedor)){
             System.out.println("Salvo com sucesso!! ");
         }else{
             fail("Erro ao Salvar!! ");
@@ -92,7 +92,7 @@ public class FornecedorDAOTest {
         
         FornecedorDAO dao = new FornecedorDAO();
         
-        if(dao.update(fornecedor)){
+        if(dao.updateFornecedor(fornecedor)){
             System.out.println("Atualizado com sucesso!! ");
         }else{
             fail("Erro ao Atualizar!! ");
@@ -111,7 +111,7 @@ public class FornecedorDAOTest {
         
         FornecedorDAO dao = new FornecedorDAO();
         
-        if(dao.delete(fornecedor)){
+        if(dao.deleteFornecedor(fornecedor)){
             System.out.println("Excluido com sucesso!! ");
         }else{
             fail("Erro ao Excluir!! ");

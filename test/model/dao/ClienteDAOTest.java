@@ -56,11 +56,10 @@ public class ClienteDAOTest {
         
         cliente.setCidade(cidade);
         cliente.setEstado(estado);
-        cliente.setContrato(contrato);
         
         ClienteDAO dao = new ClienteDAO();
         
-        if (dao.save(cliente)) {
+        if (dao.saveCliente(cliente)) {
             System.out.println("Salvo com sucesso!");
         } else {
             fail("Erro ao salvar!");
@@ -102,12 +101,11 @@ public class ClienteDAOTest {
         
         cliente.setCidade(cidade);
         cliente.setEstado(estado);
-        cliente.setContrato(contrato);
         
         
         ClienteDAO dao = new ClienteDAO();
         
-        if (dao.update(cliente)) {
+        if (dao.updateCliente(cliente)) {
             System.out.println("Alterado com sucesso!");
         } else {
             fail("Erro ao Alterar!");
@@ -123,7 +121,7 @@ public class ClienteDAOTest {
         
         ClienteDAO dao = new ClienteDAO();
         
-        if (dao.delete(cliente)) {
+        if (dao.deleteCliente(cliente)) {
             System.out.println("Excluido com sucesso!");
         } else {
             fail("Erro ao excluir!");

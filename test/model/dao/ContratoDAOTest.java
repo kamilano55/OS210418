@@ -26,14 +26,12 @@ public class ContratoDAOTest {
         Contrato contrato = new Contrato();
         
         contrato.setTipodesc("Contrato de teste");
-        contrato.setDt_inic("04/01/2018");
-        contrato.setDt_fim("**/**/****");
         contrato.setContexto("Reparo de teste");
         contrato.setValor(500.00);
         
         ContratoDAO dao = new ContratoDAO();
         
-        if(dao.save(contrato)){
+        if(dao.saveContrato(contrato)){
             System.out.println("Salvo com sucesso!! ");
         }else{
             fail("Erro ao Salvar!! ");
@@ -46,15 +44,13 @@ public class ContratoDAOTest {
         Contrato contrato = new Contrato();
         
         contrato.setTipodesc("Contrato de teste3");
-        contrato.setDt_inic("04/01/2018");
-        contrato.setDt_fim("**/**/****");
         contrato.setContexto("Reparo de teste3");
         contrato.setValor(700.00);
         contrato.setIdcontrato(2);
         
         ContratoDAO dao = new ContratoDAO();
         
-        if(dao.update(contrato)){
+        if(dao.updateContrato(contrato)){
             System.out.println("Teste Atualizado com sucesso!! ");
         }else{
             fail("Teste Erro ao Atualizar!! ");
@@ -71,7 +67,7 @@ public class ContratoDAOTest {
         
         ContratoDAO dao = new ContratoDAO();
         
-        if (dao.delete(contrato)){
+        if (dao.deleteContrato(contrato)){
             System.out.println("Excluido com sucesso!! ");
         }else{
             fail("Erro ao Escluir!! ");

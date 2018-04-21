@@ -35,13 +35,13 @@ public class EquipamentoDAOTest {
         equipamento.setDt_instal("**/**/****");
         equipamento.setHistor_inicial("Histórico inicial");
         equipamento.setGap_manut("30");
-        equipamento.setDt_ultmanut("**/**/****");
+        equipamento.setDt_ultimanut("**/**/****");
         equipamento.setFoto("2132156");
         equipamento.setCliente(cliente);
         
         EquipamentoDAO dao = new EquipamentoDAO();
         
-        if(dao.save(equipamento)){
+        if(dao.saveEquipamento(equipamento)){
             System.out.println("Salvo com sucesso!! ");
         }else{
             fail("Erro ao Salvar!! ");
@@ -63,14 +63,14 @@ public class EquipamentoDAOTest {
         equipamento.setDt_instal("**/**/****");
         equipamento.setHistor_inicial("Histórico inicial");
         equipamento.setGap_manut("30");
-        equipamento.setDt_ultmanut("**/**/****");
+        equipamento.setDt_ultimanut("**/**/****");
         equipamento.setFoto("2132156");
         equipamento.setCliente(cliente);
         equipamento.setIdequip(1);
         
         EquipamentoDAO dao = new EquipamentoDAO();
         
-        if(dao.update(equipamento)){
+        if(dao.updateEquipamento(equipamento)){
             System.out.println("Atualizado com sucesso!! ");
         }else{
             fail("Erro ao Atualizar!! ");
@@ -88,7 +88,7 @@ public class EquipamentoDAOTest {
         
         EquipamentoDAO dao = new EquipamentoDAO();
         
-        if(dao.delete(equipamento)){
+        if(dao.deleteEquipamento(equipamento)){
             System.out.println("Excluido com sucesso!! ");
         }else{
             fail("Erro ao Excluir!! ");

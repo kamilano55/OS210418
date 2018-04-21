@@ -104,6 +104,7 @@ public class TiposervDAO {
         }
     }
 
+    //em uso
     public List<Tiposerv> readAllTiposerv() {
         Connection con = ConnectionFactory.getConnection();
         PreparedStatement stmt = null;
@@ -119,7 +120,7 @@ public class TiposervDAO {
 
                 Tiposerv tiposerv = new Tiposerv();
                 
-                tiposerv.setId_tserv(rs.getInt("idserv"));
+                tiposerv.setId_tserv(rs.getInt("id_tserv"));
                 tiposerv.setDescricao(rs.getString("descricao"));
                 tiposerv.setPreco(rs.getDouble("preco"));
                 tiposerv.setSigla(rs.getString("sigla"));

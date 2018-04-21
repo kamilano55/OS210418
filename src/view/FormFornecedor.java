@@ -5,7 +5,9 @@
  */
 package view;
 
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -32,12 +34,20 @@ public class FormFornecedor extends javax.swing.JFrame {
         DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
         jTableFornecedor.setRowSorter(new TableRowSorter(modelo));
 
-//A linha abaixo chama o método que preenche a tabela lendo os dados do banco 
+        //A linha abaixo chama o método que preenche a tabela lendo os dados do banco 
         readTable();
-// a linha abaixo chama o método que prepara os combobox estado lendo do banco
-        comboBox();
+        // a linha abaixo chama o método que prepara os combobox estado
+        comboBoxEstado();
 
-//As linhas abaixo preparam botões e campos
+        // a linha abaixo chama o método que prepara os combobox cidade
+        comboBoxCidade();
+
+        //A linha abaixo chama o metodo que inicializa campos e bottons
+        inicializaSistema();
+    }
+
+    public void inicializaSistema() {
+        //As linhas abaixo preparam botões e campos
         txtId.setEnabled(false);
         txtCnpj.setEnabled(false);
         txtNome.setEnabled(false);
@@ -47,7 +57,7 @@ public class FormFornecedor extends javax.swing.JFrame {
         jFormattedTextFone1.setEnabled(false);
         jFormattedTextFone2.setEnabled(false);
         jFormattedTextCelular.setEnabled(false);
-        
+
         txtRua.setEnabled(false);
         txtNumero.setEnabled(false);
         txtComplemento.setEnabled(false);
@@ -57,38 +67,125 @@ public class FormFornecedor extends javax.swing.JFrame {
         jComboBoxEstado.setEnabled(false);
         jComboBoxCidade.setEnabled(false);
         txtGps.setEnabled(false);
-        
+
         txtConsulta.setEnabled(true);
         btnConsulta.setEnabled(true);
-        
+
         btnNovo.setEnabled(true);
         btnLimpar.setEnabled(false);
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnSalvar.setEnabled(false);
         btnSair.setEnabled(true);
-        
     }
-    
-    public void comboBox() {
-//As linhas abaixo preenchem os combobox cidade e estado
 
+    //inicializa o combobox estado
+    public void comboBoxEstado() {
+        //As linhas abaixo preenchem os combobox estado
         EstadoDAO estdao = new EstadoDAO();
+        jComboBoxEstado.removeAllItems();
+        jComboBoxEstado.addItem("Escolha");
         for (Estado e : estdao.readAllEstado()) {
             jComboBoxEstado.addItem(e);
         }
-        
+    }
+
+    //inicializa o combobox cidade
+    public void comboBoxCidade() {
+        //As linhas abaixo preenchem os combobox cidade
         CidadeDAO citdao = new CidadeDAO();
+        jComboBoxCidade.removeAllItems();
+        jComboBoxCidade.addItem("Escolha");
         for (Cidade c : citdao.readAllCidade()) {
             jComboBoxCidade.addItem(c);
         }
     }
+
+    public void prepararCampos() {
+        //Limpa campos
+        txtId.setText("");
+        txtCnpj.setText("");
+        txtNome.setText("");
+        txtContato.setText("");
+        txtUrl.setText("");
+        txtEmail.setText("");
+        jFormattedTextFone1.setText("");
+        jFormattedTextFone2.setText("");
+        jFormattedTextCelular.setText("");
+
+        txtRua.setText("");
+        txtNumero.setText("");
+        txtComplemento.setText("");
+        txtBairro.setText("");
+        txtReferencia.setText("");
+        jFormattedTextCep.setText("");
+        jComboBoxEstado.setSelectedIndex(0);
+        jComboBoxCidade.setSelectedIndex(0);
+        txtGps.setText("");
+
+        //Limpa o campo texto da consulta        
+        txtConsulta.setText("");
+
+        //Reinicia a tabela        
+        readTable();
+
+        //Posiciona o cursor
+        txtCnpj.requestFocus();
+    }
     
+    public void habilitaCampos(){
+        //As linhas abaixo habilitam os campos
+        txtId.setEnabled(true);
+        txtCnpj.setEnabled(true);
+        txtNome.setEnabled(true);
+        txtContato.setEnabled(true);
+        txtUrl.setEnabled(true);
+        txtEmail.setEnabled(true);
+        jFormattedTextFone1.setEnabled(true);
+        jFormattedTextFone2.setEnabled(true);
+        jFormattedTextCelular.setEnabled(true);
+
+        txtRua.setEnabled(true);
+        txtNumero.setEnabled(true);
+        txtComplemento.setEnabled(true);
+        txtBairro.setEnabled(true);
+        txtReferencia.setEnabled(true);
+        jFormattedTextCep.setEnabled(true);
+        jComboBoxEstado.setEnabled(true);
+        jComboBoxCidade.setEnabled(true);
+        txtGps.setEnabled(true);
+
+    }
+
+    public void desabilitaCampos() {
+        //As linhas abaixo desabilitam os campos
+        txtId.setEnabled(false);
+        txtCnpj.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtContato.setEnabled(false);
+        txtUrl.setEnabled(false);
+        txtEmail.setEnabled(false);
+        jFormattedTextFone1.setEnabled(false);
+        jFormattedTextFone2.setEnabled(false);
+        jFormattedTextCelular.setEnabled(false);
+
+        txtRua.setEnabled(false);
+        txtNumero.setEnabled(false);
+        txtComplemento.setEnabled(false);
+        txtBairro.setEnabled(false);
+        txtReferencia.setEnabled(false);
+        jFormattedTextCep.setEnabled(false);
+        jComboBoxEstado.setEnabled(false);
+        jComboBoxCidade.setEnabled(false);
+        txtGps.setEnabled(false);
+    }
+
+    //inicializa a tabela
     public void readTable() {
         DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
         modelo.setNumRows(0);
         FornecedorDAO pdao = new FornecedorDAO();
-        
+
         for (Fornecedor p : pdao.readTableAllFornecedor()) {
             modelo.addRow(new Object[]{
                 p.getIdfornec(),
@@ -108,17 +205,18 @@ public class FormFornecedor extends javax.swing.JFrame {
                 p.getCep(),
                 p.getEstado(),
                 p.getCidade(),
-                p.getGps()            
+                p.getGps()
             });
         }
     }
-    
+
+    //prepara a consulta por nome
     public void readTableforNome(String nome) {
         DefaultTableModel modelo = (DefaultTableModel) jTableFornecedor.getModel();
         modelo.setNumRows(0);
         FornecedorDAO pdao = new FornecedorDAO();
-        
-        for (Fornecedor p : pdao.readForNameFrnecedor(nome)) {
+
+        for (Fornecedor p : pdao.readForNameFornecedor(nome)) {
             modelo.addRow(new Object[]{
                 p.getIdfornec(),
                 p.getCnpj(),
@@ -137,7 +235,8 @@ public class FormFornecedor extends javax.swing.JFrame {
                 p.getCep(),
                 p.getEstado(),
                 p.getCidade(),
-                p.getGps(),});
+                p.getGps()
+            });
         }
     }
 
@@ -195,7 +294,6 @@ public class FormFornecedor extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         btnNovo = new javax.swing.JButton();
-        btnSair = new javax.swing.JButton();
         btnLimpar = new javax.swing.JButton();
         btnExcluir = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -203,9 +301,11 @@ public class FormFornecedor extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableFornecedor = new javax.swing.JTable();
+        btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE CLIENTE");
+        setTitle("CADASTRO DE FORNECEDORES");
+        setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         txtId.setEditable(false);
         txtId.setForeground(new java.awt.Color(255, 51, 51));
@@ -224,11 +324,6 @@ public class FormFornecedor extends javax.swing.JFrame {
             }
         });
 
-        txtGps.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtGpsActionPerformed(evt);
-            }
-        });
         txtGps.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtGpsKeyPressed(evt);
@@ -277,36 +372,21 @@ public class FormFornecedor extends javax.swing.JFrame {
 
         jComboBoxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha" }));
         jComboBoxEstado.setToolTipText("Click 2 vezes neste campo para criar\n filtro de cidades por estado");
-        jComboBoxEstado.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                jComboBoxEstadoItemStateChanged(evt);
+        jComboBoxEstado.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
             }
-        });
-        jComboBoxEstado.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseClicked(evt);
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBoxEstadoPopupMenuWillBecomeInvisible(evt);
             }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseExited(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jComboBoxEstadoMouseReleased(evt);
-            }
-        });
-        jComboBoxEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxEstadoActionPerformed(evt);
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
         jComboBoxEstado.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jComboBoxEstadoKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jComboBoxEstadoKeyReleased(evt);
             }
         });
 
@@ -579,17 +659,13 @@ public class FormFornecedor extends javax.swing.JFrame {
 
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("CONSULTA POR NOME"));
 
-        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Consulta.png"))); // NOI18N
+        btnConsulta.setBackground(new java.awt.Color(0, 153, 153));
+        btnConsulta.setForeground(new java.awt.Color(255, 255, 255));
+        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bg-input-azul.png"))); // NOI18N
         btnConsulta.setText("...");
         btnConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnConsultaActionPerformed(evt);
-            }
-        });
-
-        txtConsulta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConsultaActionPerformed(evt);
             }
         });
 
@@ -634,9 +710,9 @@ public class FormFornecedor extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -650,15 +726,16 @@ public class FormFornecedor extends javax.swing.JFrame {
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
 
-        btnNovo.setBackground(new java.awt.Color(102, 153, 255));
+        btnNovo.setBackground(new java.awt.Color(0, 153, 153));
         btnNovo.setForeground(new java.awt.Color(255, 255, 255));
         btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_add_35760.png"))); // NOI18N
         btnNovo.setText("NOVO");
@@ -668,16 +745,7 @@ public class FormFornecedor extends javax.swing.JFrame {
             }
         });
 
-        btnSair.setBackground(new java.awt.Color(0, 102, 204));
-        btnSair.setForeground(new java.awt.Color(255, 255, 255));
-        btnSair.setText("SAIR");
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
-            }
-        });
-
-        btnLimpar.setBackground(new java.awt.Color(102, 153, 255));
+        btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
         btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
         btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/limpar.png"))); // NOI18N
         btnLimpar.setText("LIMPAR");
@@ -687,7 +755,7 @@ public class FormFornecedor extends javax.swing.JFrame {
             }
         });
 
-        btnExcluir.setBackground(new java.awt.Color(102, 153, 255));
+        btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
         btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_delete_35761 (1).png"))); // NOI18N
         btnExcluir.setText("EXCLUIR");
@@ -697,7 +765,7 @@ public class FormFornecedor extends javax.swing.JFrame {
             }
         });
 
-        btnSalvar.setBackground(new java.awt.Color(102, 153, 255));
+        btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
         btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_add_35760 (1).png"))); // NOI18N
         btnSalvar.setText("SALVAR");
@@ -706,13 +774,8 @@ public class FormFornecedor extends javax.swing.JFrame {
                 btnSalvarActionPerformed(evt);
             }
         });
-        btnSalvar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnSalvarKeyPressed(evt);
-            }
-        });
 
-        btnAtualizar.setBackground(new java.awt.Color(102, 153, 255));
+        btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_edit_35762 (1).png"))); // NOI18N
         btnAtualizar.setText("ATUALIZAR");
@@ -733,26 +796,23 @@ public class FormFornecedor extends javax.swing.JFrame {
                     .addComponent(btnExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnLimpar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNovo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnSalvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAtualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jTableFornecedor.setModel(new javax.swing.table.DefaultTableModel(
@@ -783,17 +843,34 @@ public class FormFornecedor extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableFornecedor);
 
+        btnSair.setBackground(new java.awt.Color(0, 153, 153));
+        btnSair.setForeground(new java.awt.Color(255, 255, 255));
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icon-url-ee.png"))); // NOI18N
+        btnSair.setText("SAIR");
+        btnSair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSairActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1316, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(147, 147, 147))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -810,7 +887,7 @@ public class FormFornecedor extends javax.swing.JFrame {
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -820,9 +897,9 @@ public class FormFornecedor extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -831,110 +908,35 @@ public class FormFornecedor extends javax.swing.JFrame {
 
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
 
-//Habilita campos
-        txtCnpj.setEnabled(true);
-        txtNome.setEnabled(true);
-        txtContato.setEnabled(true);
-        txtUrl.setEnabled(true);
-        txtEmail.setEnabled(true);
-        jFormattedTextFone1.setEnabled(true);
-        jFormattedTextFone2.setEnabled(true);
-        jFormattedTextCelular.setEnabled(true);
+        //limpa campos, recarrega tabela, posiciona o ponteiro dos comboboxs e posiciona cursor
+        prepararCampos();
         
-        txtRua.setEnabled(true);
-        txtNumero.setEnabled(true);
-        txtComplemento.setEnabled(true);
-        txtBairro.setEnabled(true);
-        txtReferencia.setEnabled(true);
-        jFormattedTextCep.setEnabled(true);
-        jComboBoxEstado.setEnabled(true);
-        jComboBoxCidade.setEnabled(true);
-        txtGps.setEnabled(true);
-        
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
-        }
+        //a linha abaixo habilita os campos
+        habilitaCampos();
 
-//Limpa campos
-        txtId.setText("");
-        txtCnpj.setText("");
-        txtNome.setText("");
-        txtContato.setText("");
-        txtUrl.setText("");
-        txtEmail.setText("");
-        jFormattedTextFone1.setText("");
-        jFormattedTextFone2.setText("");
-        jFormattedTextCelular.setText("");
-        
-        txtRua.setText("");
-        txtNumero.setText("");
-        txtComplemento.setText("");
-        txtBairro.setText("");
-        txtReferencia.setText("");
-        jFormattedTextCep.setText("");
-        jComboBoxEstado.setSelectedIndex(0);
-        jComboBoxCidade.setSelectedIndex(0);
-        txtGps.setText("");
-
-// Prepara botões
-        btnLimpar.setEnabled(true);
-        btnSalvar.setEnabled(true);
-        btnExcluir.setEnabled(false);
-        btnAtualizar.setEnabled(false);
-
-// Posiciona o cursor
-        txtCnpj.requestFocus();
-    }//GEN-LAST:event_btnNovoActionPerformed
-
-    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-        // TODO add your handling code here:
-//Limpa campos
-        txtId.setText("");
-        txtCnpj.setText("");
-        txtNome.setText("");
-        txtContato.setText("");
-        txtUrl.setText("");
-        txtEmail.setText("");
-        jFormattedTextFone1.setText("");
-        jFormattedTextFone2.setText("");
-        jFormattedTextCelular.setText("");
-        
-        txtRua.setText("");
-        txtNumero.setText("");
-        txtComplemento.setText("");
-        txtBairro.setText("");
-        txtReferencia.setText("");
-        jFormattedTextCep.setText("");
-        txtGps.setText("");
-
-//Limpa o campo texto da consulta        
-        txtConsulta.setText("");
-
-//Posiciona o cursor
-        txtCnpj.requestFocus();
-
-//preenche o combobox cidade
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
-        }
-
-//Reinicia a tabela        
-        readTable();
-        jComboBoxEstado.setSelectedIndex(0);
-        jComboBoxCidade.setSelectedIndex(0);
-
-// Prepara botões
+        // Prepara botões
         btnLimpar.setEnabled(true);
         btnSalvar.setEnabled(true);
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnConsulta.setEnabled(true);
+
+
+    }//GEN-LAST:event_btnNovoActionPerformed
+
+    private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
+        //limpa campos, recarrega tabela, posiciona o ponteiro dos comboboxs e posiciona cursor
+        prepararCampos();
+
+        // Prepara botões
+        btnLimpar.setEnabled(true);
+        btnSalvar.setEnabled(true);
+        btnExcluir.setEnabled(false);
+        btnAtualizar.setEnabled(false);
+        btnConsulta.setEnabled(true);
+        
+        //recarrego o comboboxCidade com todas as cidades
+        comboBoxCidade();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -950,12 +952,12 @@ public class FormFornecedor extends javax.swing.JFrame {
             txtCnpj.requestFocus();
             return;
         }
-        
+
         if (jComboBoxEstado.getSelectedItem() != "Escolha" && jComboBoxCidade.getSelectedItem() != "Escolha") {
-            
+
             Fornecedor f = new Fornecedor();
             FornecedorDAO dao = new FornecedorDAO();
-            
+
             f.setCnpj(txtCnpj.getText());
             f.setNome(txtNome.getText().toUpperCase());
             f.setRua(txtRua.getText().toUpperCase());
@@ -972,80 +974,32 @@ public class FormFornecedor extends javax.swing.JFrame {
             f.setEmail(txtEmail.getText());
             f.setContato(txtContato.getText().toUpperCase());
 
-//As linhas abaixo pegam no combobox, que contem o objeto, o idcidade e o idestado
+            //As linhas abaixo pegam no combobox, que contem o objeto, o idcidade e o idestado
             Cidade city = (Cidade) jComboBoxCidade.getSelectedItem();
             city.setIdcidade(city.getIdcidade());
             f.setCidade(city);
-            
+
             Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
             estado.setIdestado(estado.getIdestado());
             f.setEstado(estado);
-            
+
             dao.saveFornecedor(f);
 
-//Reinicio o combobox cidade
-            CidadeDAO citdao = new CidadeDAO();
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            for (Cidade c : citdao.readAllCidade()) {
-                jComboBoxCidade.addItem(c);
-            }
+            //limpa campos, recarrega tabela, posiciona o ponteiro dos comboboxs e posiciona cursor
+            prepararCampos();
 
-//Reinicia a tabela        
-            readTable();
+            //As linhas abaixo desabilitam campos
+            desabilitaCampos();
 
-//As linhas abaixo preparam botões e campos
-//        if (txtCnpjCpf.isEnabled()) {
-            txtId.setEnabled(false);
-            txtCnpj.setEnabled(false);
-            txtNome.setEnabled(false);
-            txtContato.setEnabled(false);
-            txtUrl.setEnabled(false);
-            txtEmail.setEnabled(false);
-            jFormattedTextFone1.setEnabled(false);
-            jFormattedTextFone2.setEnabled(false);
-            jFormattedTextCelular.setEnabled(false);
-            
-            txtRua.setEnabled(false);
-            txtNumero.setEnabled(false);
-            txtComplemento.setEnabled(false);
-            txtBairro.setEnabled(false);
-            txtReferencia.setEnabled(false);
-            jFormattedTextCep.setEnabled(false);
-            jComboBoxEstado.setEnabled(false);
-            jComboBoxCidade.setEnabled(false);
-            txtGps.setEnabled(false);
-//        }
-
-//Limpa campos
-            txtId.setText("");
-            txtCnpj.setText("");
-            txtNome.setText("");
-            txtContato.setText("");
-            txtUrl.setText("");
-            txtEmail.setText("");
-            jFormattedTextFone1.setText("");
-            jFormattedTextFone2.setText("");
-            jFormattedTextCelular.setText("");
-            
-            txtRua.setText("");
-            txtNumero.setText("");
-            txtComplemento.setText("");
-            txtBairro.setText("");
-            txtReferencia.setText("");
-            jFormattedTextCep.setText("");
-            jComboBoxEstado.setSelectedIndex(0);
-            jComboBoxCidade.setSelectedIndex(0);
-            txtGps.setText("");
-
-//limpa campo consulta            
-            txtConsulta.setText("");
-
-//Atualiza botões        
+            //Atualiza botões        
             btnLimpar.setEnabled(false);
             btnSalvar.setEnabled(false);
             btnExcluir.setEnabled(false);
             btnAtualizar.setEnabled(false);
+            
+            //recarrego o comboboxCidade com todas as cidades
+            comboBoxCidade();
+            
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos estado e cidade, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
@@ -1057,7 +1011,7 @@ public class FormFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
-        
+        // As linhas abaixo testam se campos obrigatórios estão preenchidos
         if ((jFormattedTextCelular.getText().equals("(  )     -    "))
                 || (txtCnpj.getText().isEmpty())
                 || (txtNome.getText().isEmpty())
@@ -1069,12 +1023,12 @@ public class FormFornecedor extends javax.swing.JFrame {
             txtCnpj.requestFocus();
             return;
         }
-        
+        //testa a condi;'ao do combobox e prepara a atualização
         if (jComboBoxEstado.getSelectedItem() != "Escolha" && jComboBoxCidade.getSelectedItem() != "Escolha") {
-            
+
             Fornecedor f = new Fornecedor();
             FornecedorDAO dao = new FornecedorDAO();
-            
+
             f.setCnpj(txtCnpj.getText());
             f.setNome(txtNome.getText().toUpperCase());
             f.setRua(txtRua.getText().toUpperCase());
@@ -1091,157 +1045,59 @@ public class FormFornecedor extends javax.swing.JFrame {
             f.setEmail(txtEmail.getText());
             f.setContato(txtContato.getText().toUpperCase());
 
-//As linhas abaixo pegam no combobox, que contem o objeto, o idcidade e o idestado
+            //As linhas abaixo pegam no combobox, que contem o objeto, o idcidade e o idestado
             Cidade city = (Cidade) jComboBoxCidade.getSelectedItem();
             city.setIdcidade(city.getIdcidade());
             f.setCidade(city);
-            
+
             Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
             estado.setIdestado(estado.getIdestado());
             f.setEstado(estado);
             
-            f.setIdfornec(Integer.parseInt(txtId.getText()));
+            f.setIdfornec((int) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 0));
             
+
             dao.updateFornecedor(f);
 
-//Reinicio o combobox cidade
-            CidadeDAO citdao = new CidadeDAO();
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            for (Cidade c : citdao.readAllCidade()) {
-                jComboBoxCidade.addItem(c);
-            }
+            //limpa campos, recarrega tabela, posiciona o ponteiro dos comboboxs e posiciona cursor
+            prepararCampos();
 
-//Reinicia a tabela        
-            readTable();
+            //As linhas abaixo desabilitam campos
+            desabilitaCampos();
 
-//As linhas abaixo preparam botões e campos
-//        if (txtCnpjCpf.isEnabled()) {
-            txtId.setEnabled(false);
-            txtCnpj.setEnabled(false);
-            txtNome.setEnabled(false);
-            txtContato.setEnabled(false);
-            txtUrl.setEnabled(false);
-            txtEmail.setEnabled(false);
-            jFormattedTextFone1.setEnabled(false);
-            jFormattedTextFone2.setEnabled(false);
-            jFormattedTextCelular.setEnabled(false);
-            
-            txtRua.setEnabled(false);
-            txtNumero.setEnabled(false);
-            txtComplemento.setEnabled(false);
-            txtBairro.setEnabled(false);
-            txtReferencia.setEnabled(false);
-            jFormattedTextCep.setEnabled(false);
-            jComboBoxEstado.setEnabled(false);
-            jComboBoxCidade.setEnabled(false);
-            txtGps.setEnabled(false);
-//        }
-
-//Limpa campos
-            txtId.setText("");
-            txtCnpj.setText("");
-            txtNome.setText("");
-            txtContato.setText("");
-            txtUrl.setText("");
-            txtEmail.setText("");
-            jFormattedTextFone1.setText("");
-            jFormattedTextFone2.setText("");
-            jFormattedTextCelular.setText("");
-            
-            txtRua.setText("");
-            txtNumero.setText("");
-            txtComplemento.setText("");
-            txtBairro.setText("");
-            txtReferencia.setText("");
-            jFormattedTextCep.setText("");
-            jComboBoxEstado.setSelectedIndex(0);
-            jComboBoxCidade.setSelectedIndex(0);
-            txtGps.setText("");
-
-//limpa campo consulta            
-            txtConsulta.setText("");
-
-//Atualiza botões        
+            //Atualiza botões        
             btnLimpar.setEnabled(false);
             btnSalvar.setEnabled(false);
             btnExcluir.setEnabled(false);
             btnAtualizar.setEnabled(false);
+            
+            //recarrego o comboboxCidade com todas as cidades
+            comboBoxCidade();
+            
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos estado e cidade, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnAtualizarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
-// As linhas abaixo exclui um objeto(registro) do banco de dados
-
+        // As linhas abaixo confirmam o interesse em excluir o registro
         int excluir = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja EXCLUIR este registro?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
         if (excluir == JOptionPane.YES_OPTION) {
-            
+
             Fornecedor cli = new Fornecedor();
             FornecedorDAO dao = new FornecedorDAO();
 
-//        adm.setIdadmin(Integer.parseInt(txtId.getText()));
             cli.setIdfornec((int) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 0));
-            
+
             dao.deleteFornecedor(cli);
 
-//Atualiza a tabela
-            readTable();
+            //limpa campos, recarrega tabela, posiciona o ponteiro dos comboboxs e posiciona cursor
+            prepararCampos();
 
-//Reinicia combobox cidade
-            CidadeDAO citdao = new CidadeDAO();
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            for (Cidade c : citdao.readAllCidade()) {
-                jComboBoxCidade.addItem(c);
-            }
+            //As linhas abaixo desabilitam campos
+            desabilitaCampos();
 
-//Limpa campos
-            txtId.setText("");
-            txtCnpj.setText("");
-            txtNome.setText("");
-            txtContato.setText("");
-            txtUrl.setText("");
-            txtEmail.setText("");
-            jFormattedTextFone1.setText("");
-            jFormattedTextFone2.setText("");
-            jFormattedTextCelular.setText("");
-            
-            txtRua.setText("");
-            txtNumero.setText("");
-            txtComplemento.setText("");
-            txtBairro.setText("");
-            txtReferencia.setText("");
-            jFormattedTextCep.setText("");
-            jComboBoxEstado.setSelectedIndex(0);
-            jComboBoxCidade.setSelectedIndex(0);
-            txtGps.setText("");
-
-//Reinicia campo de consulta            
-            txtConsulta.setText("");
-
-//As linhas abaixo preparam botões e campos
-            txtCnpj.setEnabled(false);
-            txtNome.setEnabled(false);
-            txtContato.setEnabled(false);
-            txtUrl.setEnabled(false);
-            txtEmail.setEnabled(false);
-            jFormattedTextFone1.setEnabled(false);
-            jFormattedTextFone2.setEnabled(false);
-            jFormattedTextCelular.setEnabled(false);
-            
-            txtRua.setEnabled(false);
-            txtNumero.setEnabled(false);
-            txtComplemento.setEnabled(false);
-            txtBairro.setEnabled(false);
-            txtReferencia.setEnabled(false);
-            jFormattedTextCep.setEnabled(false);
-            jComboBoxEstado.setEnabled(false);
-            jComboBoxCidade.setEnabled(false);
-            txtGps.setEnabled(false);
-
-//Atualiza botões
+            //Atualiza botões
             btnLimpar.setEnabled(false);
             btnExcluir.setEnabled(false);
             btnSalvar.setEnabled(false);
@@ -1250,45 +1106,16 @@ public class FormFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void jTableFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFornecedorMouseClicked
-
-//Reinicia combobox cidade
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
-        }
+        //carrega o comboboxcidade com todas as cidades
+        comboBoxCidade();
         
-        jComboBoxCidade.setSelectedIndex(0);
-        jComboBoxEstado.setSelectedIndex(0);
-
-// As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
+        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableFornecedor.getSelectedRow() != -1) {
-            txtId.setEnabled(true);
-            txtCnpj.setEnabled(true);
-            txtNome.setEnabled(true);
-            txtContato.setEnabled(true);
-            txtUrl.setEnabled(true);
-            txtEmail.setEnabled(true);
-            jFormattedTextFone1.setEnabled(true);
-            jFormattedTextFone2.setEnabled(true);
-            jFormattedTextCelular.setEnabled(true);
             
-            txtRua.setEnabled(true);
-            txtNumero.setEnabled(true);
-            txtComplemento.setEnabled(true);
-            txtBairro.setEnabled(true);
-            txtReferencia.setEnabled(true);
-            jFormattedTextCep.setEnabled(true);
-            jComboBoxEstado.setEnabled(true);
-            jComboBoxCidade.setEnabled(true);
-            txtGps.setEnabled(true);
-            
-            btnExcluir.setEnabled(true);
-            btnAtualizar.setEnabled(true);
-            btnSalvar.setEnabled(false);
-            btnLimpar.setEnabled(false);
-            
+           //habilita campos
+           habilitaCampos();
+           
+            //pega dados na tabela e preenche os campos
             txtId.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 0).toString());
             txtCnpj.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 1).toString());
             txtNome.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 2).toString());
@@ -1298,65 +1125,49 @@ public class FormFornecedor extends javax.swing.JFrame {
             jFormattedTextFone1.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 6).toString());
             jFormattedTextFone2.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 7).toString());
             jFormattedTextCelular.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 8).toString());
-            
+
             txtRua.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 9).toString());
             txtNumero.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 10).toString());
             txtComplemento.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 11).toString());
             txtBairro.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 12).toString());
             txtReferencia.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 13).toString());
             jFormattedTextCep.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 14).toString());
-            
+
             Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 15);
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
-            
+
             Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 16);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
-            
+
             txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17).toString());
+            
+           // Prepara botões
+            btnLimpar.setEnabled(false);
+            
+            if (FormMenu.lblUsuario.getText().equals("Adiministrador")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+            
+            btnAtualizar.setEnabled(true);
+            btnSalvar.setEnabled(false);
         }
     }//GEN-LAST:event_jTableFornecedorMouseClicked
 
     private void jTableFornecedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableFornecedorKeyReleased
-
-//Reinicia combobox cidade
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
-        }
+        //carrega o comboboxcidade com todas as cidades
+        comboBoxCidade();
         
-        jComboBoxCidade.setSelectedIndex(0);
-        jComboBoxEstado.setSelectedIndex(0);
-
-// As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
+        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableFornecedor.getSelectedRow() != -1) {
-            txtCnpj.setEnabled(true);
-            txtNome.setEnabled(true);
-            txtContato.setEnabled(true);
-            txtUrl.setEnabled(true);
-            txtEmail.setEnabled(true);
-            jFormattedTextFone1.setEnabled(true);
-            jFormattedTextFone2.setEnabled(true);
-            jFormattedTextCelular.setEnabled(true);
             
-            txtRua.setEnabled(true);
-            txtNumero.setEnabled(true);
-            txtComplemento.setEnabled(true);
-            txtBairro.setEnabled(true);
-            txtReferencia.setEnabled(true);
-            jFormattedTextCep.setEnabled(true);
-            jComboBoxEstado.setEnabled(true);
-            jComboBoxCidade.setEnabled(true);
-            txtGps.setEnabled(true);
-            
-            btnExcluir.setEnabled(true);
-            btnAtualizar.setEnabled(true);
-            btnSalvar.setEnabled(false);
-            btnLimpar.setEnabled(false);
-            
+           //habilita campos
+           habilitaCampos();
+           
+            //pega dados na tabela e preenche os campos
             txtId.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 0).toString());
             txtCnpj.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 1).toString());
             txtNome.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 2).toString());
@@ -1366,23 +1177,37 @@ public class FormFornecedor extends javax.swing.JFrame {
             jFormattedTextFone1.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 6).toString());
             jFormattedTextFone2.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 7).toString());
             jFormattedTextCelular.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 8).toString());
-            
+
             txtRua.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 9).toString());
             txtNumero.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 10).toString());
             txtComplemento.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 11).toString());
             txtBairro.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 12).toString());
             txtReferencia.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 13).toString());
             jFormattedTextCep.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 14).toString());
-            
-            Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17);
+
+            Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 15);
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
+            JOptionPane.showMessageDialog(null, est.getIdestado());
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
-            
-            Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 18);
+
+            Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 16);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
+            JOptionPane.showMessageDialog(null, cid.getIdcidade());
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
+
+            txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17).toString());
             
-            txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 20).toString());
+            // Prepara botões
+            btnLimpar.setEnabled(false);
+            
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+            
+            btnAtualizar.setEnabled(true);
+            btnSalvar.setEnabled(false);
         }
     }//GEN-LAST:event_jTableFornecedorKeyReleased
 
@@ -1442,13 +1267,6 @@ public class FormFornecedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jComboBoxCidadeKeyPressed
 
-    private void jComboBoxEstadoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBoxEstadoItemStateChanged
-    }//GEN-LAST:event_jComboBoxEstadoItemStateChanged
-
-    private void txtGpsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGpsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtGpsActionPerformed
-
     private void txtGpsKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGpsKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -1456,65 +1274,12 @@ public class FormFornecedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtGpsKeyPressed
 
-    private void btnSalvarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnSalvarKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvarKeyPressed
-
-    private void txtConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConsultaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtConsultaActionPerformed
-
     private void btnConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaActionPerformed
         // TODO add your handling code here:
 
         readTableforNome(txtConsulta.getText());
 
     }//GEN-LAST:event_btnConsultaActionPerformed
-
-    private void jComboBoxEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoActionPerformed
-
-    private void jComboBoxEstadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoMouseClicked
-
-    private void jComboBoxEstadoMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseEntered
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoMouseEntered
-
-    private void jComboBoxEstadoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMousePressed
-        // TODO add your handling code here:
-        if (jComboBoxEstado.getSelectedItem() != "Escolha") {
-            
-            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
-            
-            estado.setIdestado(estado.getIdestado());
-            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
-            
-            CidadeDAO citdao = new CidadeDAO();
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
-                jComboBoxCidade.addItem(c);
-            }
-        } else {
-            jComboBoxCidade.removeAllItems();
-            jComboBoxCidade.addItem("Escolha");
-            CidadeDAO citdao = new CidadeDAO();
-            for (Cidade c : citdao.readAllCidade()) {
-                jComboBoxCidade.addItem(c);
-            }
-            jComboBoxCidade.setSelectedIndex(0);
-        }
-    }//GEN-LAST:event_jComboBoxEstadoMousePressed
-
-    private void jComboBoxEstadoMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseReleased
-    }//GEN-LAST:event_jComboBoxEstadoMouseReleased
-
-    private void jComboBoxEstadoMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEstadoMouseExited
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxEstadoMouseExited
 
     private void jFormattedTextCelularKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextCelularKeyPressed
         // TODO add your handling code here:
@@ -1572,6 +1337,42 @@ public class FormFornecedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jFormattedTextFone2KeyPressed
 
+    private void jComboBoxEstadoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxEstadoPopupMenuWillBecomeInvisible
+        // As linhas abaixo filtam as cidades no combobox cidade quando o estado no comboboxestado é mudado
+         if (jComboBoxEstado.getSelectedItem() != "Escolha") {
+
+            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+
+            estado.setIdestado(estado.getIdestado());
+            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
+
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+                jComboBoxCidade.addItem(c);
+            }
+        }
+    }//GEN-LAST:event_jComboBoxEstadoPopupMenuWillBecomeInvisible
+
+    private void jComboBoxEstadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxEstadoKeyReleased
+        // TODO add your handling code here:
+         if (jComboBoxEstado.getSelectedItem() != "Escolha") {
+
+            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+
+            estado.setIdestado(estado.getIdestado());
+            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
+
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+                jComboBoxCidade.addItem(c);
+            }
+        }
+    }//GEN-LAST:event_jComboBoxEstadoKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1586,25 +1387,29 @@ public class FormFornecedor extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(FormFornecedor.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(FormFornecedor.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(FormFornecedor.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(FormFornecedor.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

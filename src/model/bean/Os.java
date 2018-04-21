@@ -17,12 +17,14 @@ public class Os {
     private String nome_equip;
     private String defeito;
     private String tecnico;
+    private String dt_inicio;
     private String hr_inic;
     private String servico;
-    private Boolean uso_peca;
-    private Boolean equip_retirado;
+    private String uso_peca;
+    private String equip_retirado;
     private String obs;
-    private Boolean aberta_fech;
+    private String aberta_fech;
+    private String dt_fim;
     private String hr_fim;
     private Tiposerv tiposerv;
     private Cliente cliente;
@@ -31,24 +33,28 @@ public class Os {
     public Os() {
     }
 
-    public Os(int idos, String data, String nome_cliente, String nome_equip, String defeito, String tecnico, String hr_inic, String servico, Boolean uso_peca, Boolean equip_retirado, String obs, Boolean aberta_fech, String hr_fim, Tiposerv tiposerv, Cliente cliente, Equipamento equipamento) {
+    public Os(int idos, String data, String nome_cliente, String nome_equip, String defeito, String tecnico, String dt_inicio, String hr_inic, String servico, String uso_peca, String equip_retirado, String obs, String aberta_fech, String dt_fim, String hr_fim, Tiposerv tiposerv, Cliente cliente, Equipamento equipamento) {
         this.idos = idos;
         this.data = data;
         this.nome_cliente = nome_cliente;
         this.nome_equip = nome_equip;
         this.defeito = defeito;
         this.tecnico = tecnico;
+        this.dt_inicio = dt_inicio;
         this.hr_inic = hr_inic;
         this.servico = servico;
         this.uso_peca = uso_peca;
         this.equip_retirado = equip_retirado;
         this.obs = obs;
         this.aberta_fech = aberta_fech;
+        this.dt_fim = dt_fim;
         this.hr_fim = hr_fim;
         this.tiposerv = tiposerv;
         this.cliente = cliente;
         this.equipamento = equipamento;
     }
+
+   
 
     public int getIdos() {
         return idos;
@@ -98,6 +104,14 @@ public class Os {
         this.tecnico = tecnico;
     }
 
+    public String getDt_inicio() {
+        return dt_inicio;
+    }
+
+    public void setDt_inicio(String dt_inicio) {
+        this.dt_inicio = dt_inicio;
+    }
+
     public String getHr_inic() {
         return hr_inic;
     }
@@ -114,19 +128,19 @@ public class Os {
         this.servico = servico;
     }
 
-    public Boolean getUso_peca() {
+    public String getUso_peca() {
         return uso_peca;
     }
 
-    public void setUso_peca(Boolean uso_peca) {
+    public void setUso_peca(String uso_peca) {
         this.uso_peca = uso_peca;
     }
 
-    public Boolean getEquip_retirado() {
+    public String getEquip_retirado() {
         return equip_retirado;
     }
 
-    public void setEquip_retirado(Boolean equip_retirado) {
+    public void setEquip_retirado(String equip_retirado) {
         this.equip_retirado = equip_retirado;
     }
 
@@ -138,12 +152,20 @@ public class Os {
         this.obs = obs;
     }
 
-    public Boolean getAberta_fech() {
+    public String getAberta_fech() {
         return aberta_fech;
     }
 
-    public void setAberta_fech(Boolean aberta_fech) {
+    public void setAberta_fech(String aberta_fech) {
         this.aberta_fech = aberta_fech;
+    }
+
+    public String getDt_fim() {
+        return dt_fim;
+    }
+
+    public void setDt_fim(String dt_fim) {
+        this.dt_fim = dt_fim;
     }
 
     public String getHr_fim() {
@@ -177,5 +199,11 @@ public class Os {
     public void setEquipamento(Equipamento equipamento) {
         this.equipamento = equipamento;
     }
+
+    @Override
+    public String toString() {
+        return "" + getIdos(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
 
