@@ -120,7 +120,7 @@ public class FormCidade extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE CIDADES");
+        setTitle("FORMUÁRIO DE CADASTRO DE CIDADE");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         jTableCidade.setModel(new javax.swing.table.DefaultTableModel(
@@ -586,15 +586,16 @@ if (txtNome.getText().isEmpty()) {
             txtNome.setEnabled(true);
             jComboBoxEstado.setEnabled(true);
             
-            if(FormMenu.lblUsuario.getText().equals("ADMGERAL")){
-            btnExcluir.setEnabled(true);
-        }else{
-            btnExcluir.setEnabled(false);
-        }
+//            if(FormMenu.lblUsuario.getText().equals("ADMGERAL")){
+//            btnExcluir.setEnabled(true);
+//        }else{
+//            btnExcluir.setEnabled(false);
+//        }
             
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
+            btnExcluir.setEnabled(true);
             
             txtCodigo.setText(jTableCidade.getValueAt(jTableCidade.getSelectedRow(), 0).toString());
             txtNome.setText(jTableCidade.getValueAt(jTableCidade.getSelectedRow(), 1).toString());

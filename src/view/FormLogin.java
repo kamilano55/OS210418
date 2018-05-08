@@ -69,6 +69,12 @@ public class FormLogin extends javax.swing.JFrame {
                         FormMenu.jMenuCadUsuario.setEnabled(true);
                         FormMenu.jMenuCadContrato.setEnabled(true);
                         FormMenu.jMenuCadTipoServ.setEnabled(true);
+                        FormMenu.btnCidade.setEnabled(true);
+                        FormMenu.btnContrato.setEnabled(true);
+                        FormMenu.btnEstado.setEnabled(true);
+                        FormMenu.btnTipoServ.setEnabled(true);
+                        FormMenu.btnUsuario.setEnabled(true);
+                        
                         FormMenu.lblUsuario.setText(rs.getString(2));
                         FormMenu.lblUsuario.setForeground(Color.RED);
                         this.dispose();
@@ -79,7 +85,14 @@ public class FormLogin extends javax.swing.JFrame {
                         FormMenu.jMenuCadUsuario.setEnabled(false);
                         FormMenu.jMenuCadContrato.setEnabled(false);
                         FormMenu.jMenuCadTipoServ.setEnabled(false);
+                        FormMenu.btnCidade.setEnabled(false);
+                        FormMenu.btnContrato.setEnabled(false);
+                        FormMenu.btnEstado.setEnabled(false);
+                        FormMenu.btnTipoServ.setEnabled(false);
+                        FormMenu.btnUsuario.setEnabled(false);
+                        
                         FormMenu.lblUsuario.setText(rs.getString(2));
+                        
                         this.dispose();
                     }
                 }

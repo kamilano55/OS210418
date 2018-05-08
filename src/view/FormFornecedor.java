@@ -37,10 +37,10 @@ public class FormFornecedor extends javax.swing.JFrame {
         //A linha abaixo chama o método que preenche a tabela lendo os dados do banco 
         readTable();
         // a linha abaixo chama o método que prepara os combobox estado
-        comboBoxEstado();
+        comboBox();
 
         // a linha abaixo chama o método que prepara os combobox cidade
-        comboBoxCidade();
+//        comboBoxCidade();
 
         //A linha abaixo chama o metodo que inicializa campos e bottons
         inicializaSistema();
@@ -78,28 +78,56 @@ public class FormFornecedor extends javax.swing.JFrame {
         btnSalvar.setEnabled(false);
         btnSair.setEnabled(true);
     }
+    
+    //As linhas abaixo preenchem os combobox estado
+    public void comboBox() {
 
-    //inicializa o combobox estado
-    public void comboBoxEstado() {
-        //As linhas abaixo preenchem os combobox estado
         EstadoDAO estdao = new EstadoDAO();
         jComboBoxEstado.removeAllItems();
         jComboBoxEstado.addItem("Escolha");
         for (Estado e : estdao.readAllEstado()) {
             jComboBoxEstado.addItem(e);
         }
-    }
-
-    //inicializa o combobox cidade
-    public void comboBoxCidade() {
-        //As linhas abaixo preenchem os combobox cidade
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
+        if (jComboBoxEstado.getSelectedIndex() == 0) {
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readAllCidade()) {
+                jComboBoxCidade.addItem(c);
+            }
+        } else {
+            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+            estado.setIdestado(estado.getIdestado());
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+                jComboBoxCidade.addItem(c);
+            }
         }
     }
+
+    //inicializa o combobox estado
+//    public void comboBoxEstado() {
+//        //As linhas abaixo preenchem os combobox estado
+//        EstadoDAO estdao = new EstadoDAO();
+//        jComboBoxEstado.removeAllItems();
+//        jComboBoxEstado.addItem("Escolha");
+//        for (Estado e : estdao.readAllEstado()) {
+//            jComboBoxEstado.addItem(e);
+//        }
+//    }
+//
+//    //inicializa o combobox cidade
+//    public void comboBoxCidade() {
+//        //As linhas abaixo preenchem os combobox cidade
+//        CidadeDAO citdao = new CidadeDAO();
+//        jComboBoxCidade.removeAllItems();
+//        jComboBoxCidade.addItem("Escolha");
+//        for (Cidade c : citdao.readAllCidade()) {
+//            jComboBoxCidade.addItem(c);
+//        }
+//    }
 
     public void prepararCampos() {
         //Limpa campos
@@ -304,7 +332,7 @@ public class FormFornecedor extends javax.swing.JFrame {
         btnSair = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE FORNECEDORES");
+        setTitle("FORMUÁRIO DE CADASTRO DE FORNECEDOR");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         txtId.setEditable(false);
@@ -920,6 +948,9 @@ public class FormFornecedor extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnConsulta.setEnabled(true);
+        
+        //prepara combobox
+        comboBox();
 
 
     }//GEN-LAST:event_btnNovoActionPerformed
@@ -935,8 +966,8 @@ public class FormFornecedor extends javax.swing.JFrame {
         btnAtualizar.setEnabled(false);
         btnConsulta.setEnabled(true);
         
-        //recarrego o comboboxCidade com todas as cidades
-        comboBoxCidade();
+        //prepara combobox
+        comboBox();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -996,9 +1027,9 @@ public class FormFornecedor extends javax.swing.JFrame {
             btnSalvar.setEnabled(false);
             btnExcluir.setEnabled(false);
             btnAtualizar.setEnabled(false);
-            
-            //recarrego o comboboxCidade com todas as cidades
-            comboBoxCidade();
+//            
+//            //recarrego o comboboxCidade com todas as cidades
+//            comboBoxCidade();
             
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos estado e cidade, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
@@ -1071,8 +1102,8 @@ public class FormFornecedor extends javax.swing.JFrame {
             btnExcluir.setEnabled(false);
             btnAtualizar.setEnabled(false);
             
-            //recarrego o comboboxCidade com todas as cidades
-            comboBoxCidade();
+//            //recarrego o comboboxCidade com todas as cidades
+//            comboBoxCidade();
             
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos estado e cidade, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
@@ -1107,7 +1138,7 @@ public class FormFornecedor extends javax.swing.JFrame {
 
     private void jTableFornecedorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableFornecedorMouseClicked
         //carrega o comboboxcidade com todas as cidades
-        comboBoxCidade();
+        comboBox();
         
         // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableFornecedor.getSelectedRow() != -1) {
@@ -1159,7 +1190,7 @@ public class FormFornecedor extends javax.swing.JFrame {
 
     private void jTableFornecedorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableFornecedorKeyReleased
         //carrega o comboboxcidade com todas as cidades
-        comboBoxCidade();
+        comboBox();
         
         // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableFornecedor.getSelectedRow() != -1) {
@@ -1187,12 +1218,12 @@ public class FormFornecedor extends javax.swing.JFrame {
 
             Estado est = (Estado) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 15);
             est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
-            JOptionPane.showMessageDialog(null, est.getIdestado());
+//            JOptionPane.showMessageDialog(null, est.getIdestado());
             jComboBoxEstado.setSelectedIndex(est.getIdestado());
 
             Cidade cid = (Cidade) jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 16);
             cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
-            JOptionPane.showMessageDialog(null, cid.getIdcidade());
+//            JOptionPane.showMessageDialog(null, cid.getIdcidade());
             jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
 
             txtGps.setText(jTableFornecedor.getValueAt(jTableFornecedor.getSelectedRow(), 17).toString());

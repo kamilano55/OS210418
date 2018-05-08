@@ -45,14 +45,14 @@ public class FormAdministradora extends javax.swing.JFrame {
         readTable();
 
         // a linha abaixo chama os método que prepara o combobox estados
-        comboBoxEstado();
-        
-         // a linha abaixo chama os método que prepara o combobox cidades
-        comboBoxCidade();
+        comboBox();
 
+//         // a linha abaixo chama os método que prepara o combobox cidades
+//        comboBoxCidade();
         //A linha abaixo chama o metodo que inicializa campos e bottons
         inicializaSistema();
     }
+
     //Prepara campos e bottons para o MouseClicked e KeyReleased
     public void camposBottonsMouseClicked() {
         txtCnpjCpf.setEnabled(true);
@@ -73,13 +73,13 @@ public class FormAdministradora extends javax.swing.JFrame {
         jComboBoxCidade.setEnabled(true);
         txtGps.setEnabled(true);
         lblFoto.setEnabled(true);
-        
-        if(FormMenu.lblUsuario.getText().equals("ADMGERAL")){
+
+        if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
             btnExcluir.setEnabled(true);
-        }else{
+        } else {
             btnExcluir.setEnabled(false);
         }
-        
+
         btnAtualizar.setEnabled(true);
         btnSalvar.setEnabled(false);
         btnLimpar.setEnabled(false);
@@ -229,33 +229,58 @@ public class FormAdministradora extends javax.swing.JFrame {
         btnSalvar.setEnabled(false);
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
-        
-        //recarrego o comboboxCidade com todas as cidades
-            comboBoxCidade();
+
+//        //recarrego o comboboxCidade com todas as cidades
+//            comboBoxCidade();
     }
-    
-    public void comboBoxEstado() {
-        //As linhas abaixo preenchem os combobox estado
+
+    //As linhas abaixo preenchem os combobox estado
+    public void comboBox() {
+
         EstadoDAO estdao = new EstadoDAO();
         jComboBoxEstado.removeAllItems();
         jComboBoxEstado.addItem("Escolha");
         for (Estado e : estdao.readAllEstado()) {
             jComboBoxEstado.addItem(e);
         }
-    }
-
-    public void comboBoxCidade() {
-        //preenche o combobox cidade
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
+        if (jComboBoxEstado.getSelectedIndex() == 0) {
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readAllCidade()) {
+                jComboBoxCidade.addItem(c);
+            }
+        } else {
+            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+            estado.setIdestado(estado.getIdestado());
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+                jComboBoxCidade.addItem(c);
+            }
         }
     }
 
-    
-
+//    public void comboBoxEstado() {
+//        //As linhas abaixo preenchem os combobox estado
+//        EstadoDAO estdao = new EstadoDAO();
+//        jComboBoxEstado.removeAllItems();
+//        jComboBoxEstado.addItem("Escolha");
+//        for (Estado e : estdao.readAllEstado()) {
+//            jComboBoxEstado.addItem(e);
+//        }
+//    }
+//
+//    public void comboBoxCidade() {
+//        //preenche o combobox cidade
+//        CidadeDAO citdao = new CidadeDAO();
+//        jComboBoxCidade.removeAllItems();
+//        jComboBoxCidade.addItem("Escolha");
+//        for (Cidade c : citdao.readAllCidade()) {
+//            jComboBoxCidade.addItem(c);
+//        }
+//    }
     //As linhas abaixo preenchem a tabela
     public void readTable() {
         DefaultTableModel modelo = (DefaultTableModel) jTableAdmin.getModel();
@@ -385,7 +410,7 @@ public class FormAdministradora extends javax.swing.JFrame {
         jTableAdmin = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE ADMINISTRADORAS");
+        setTitle("FORMULÁRIO DE CADASTRO DE ADMINISTRADORA");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         txtId.setEditable(false);
@@ -464,6 +489,9 @@ public class FormAdministradora extends javax.swing.JFrame {
             }
         });
         jComboBoxEstado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBoxEstadoKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jComboBoxEstadoKeyReleased(evt);
             }
@@ -1034,6 +1062,9 @@ public class FormAdministradora extends javax.swing.JFrame {
 
         // Posiciona o cursor
         txtCnpjCpf.requestFocus();
+
+        // prepara o combobox
+        comboBox();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -1079,9 +1110,9 @@ public class FormAdministradora extends javax.swing.JFrame {
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnConsulta.setEnabled(true);
-        
-        //recarrego o comboboxCidade com todas as cidades
-            comboBoxCidade();
+
+//        //recarrego o comboboxCidade com todas as cidades
+        comboBox();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -1229,72 +1260,13 @@ public class FormAdministradora extends javax.swing.JFrame {
 
     private void jTableAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableAdminMouseClicked
         // a linha abaixo chama os método que prepara o combobox cidades
-        comboBoxCidade();
+//        comboBox();
 
         // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableAdmin.getSelectedRow() != -1) {
-            
+
             //Prepara campos e bottons para o MouseClicked e KeyReleased
             camposBottonsMouseClicked();
-            
-            //pega os dados do registro na tabela
-            txtId.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 0).toString());
-            txtCnpjCpf.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 1).toString());
-            txtNome.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 2).toString());
-            txtContato.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 3).toString());
-            txtCargo.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 4).toString());
-            txtUrl.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 5).toString());
-            txtEmail.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 6).toString());
-            jFormattedTextFone1.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 7).toString());
-            jFormattedTextCelular.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 8).toString());
-            txtRua.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 9).toString());
-            txtNumero.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 10).toString());
-            txtComplemento.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 11).toString());
-            txtBairro.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 12).toString());
-            txtReferencia.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 13).toString());
-            jFormattedTextCep.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 14).toString());
-
-            Estado est = (Estado) jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 15);
-            est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
-            jComboBoxEstado.setSelectedIndex(est.getIdestado());
-
-            Cidade cid = (Cidade) jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 16);
-            cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
-            jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
-
-            txtGps.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 17).toString());
-
-            Administradora a = new Administradora();
-
-            a.setFoto((String) jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 18));
-            String nomeImagem = a.getFoto();
-
-            if (!nomeImagem.isEmpty()) {
-
-                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
-                lblFoto.setIcon(icone);
-                lblNomeFoto.setText(nomeImagem);
-            } else {
-                JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
-//Reinicia label foto 
-                lblNomeFoto.setText("");
-                lblNomeFoto.setEnabled(false);
-                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
-            }
-        }
-        //posiciona o cursor no primeiro campo
-        txtCnpjCpf.requestFocus();
-    }//GEN-LAST:event_jTableAdminMouseClicked
-
-    private void jTableAdminKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableAdminKeyReleased
-        // a linha abaixo chama os método que prepara o combobox cidades
-        comboBoxCidade();
-
-        if (jTableAdmin.getSelectedRow() != -1) {
-            
-            //Prepara campos e bottons para o MouseClicked e KeyReleased
-            camposBottonsMouseClicked();
-            
             //pega os dados do registro na tabela
             txtId.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 0).toString());
             txtCnpjCpf.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 1).toString());
@@ -1340,8 +1312,61 @@ public class FormAdministradora extends javax.swing.JFrame {
                 lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
             }
         }
-        //posiciona o cursor no primeiro campo
-        txtCnpjCpf.requestFocus();
+    }//GEN-LAST:event_jTableAdminMouseClicked
+
+    private void jTableAdminKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableAdminKeyReleased
+        // a linha abaixo chama os método que prepara o combobox cidades
+//        comboBox();
+
+        if (jTableAdmin.getSelectedRow() != -1) {
+
+            //Prepara campos e bottons para o MouseClicked e KeyReleased
+            camposBottonsMouseClicked();
+            //pega os dados do registro na tabela
+            txtId.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 0).toString());
+            txtCnpjCpf.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 1).toString());
+            txtNome.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 2).toString());
+            txtContato.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 3).toString());
+            txtCargo.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 4).toString());
+            txtUrl.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 5).toString());
+            txtEmail.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 6).toString());
+            jFormattedTextFone1.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 7).toString());
+            jFormattedTextCelular.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 8).toString());
+            txtRua.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 9).toString());
+            txtNumero.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 10).toString());
+            txtComplemento.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 11).toString());
+            txtBairro.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 12).toString());
+            txtReferencia.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 13).toString());
+            jFormattedTextCep.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 14).toString());
+
+            Estado est = (Estado) jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 15);
+            est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
+            jComboBoxEstado.setSelectedIndex(est.getIdestado());
+
+            Cidade cid = (Cidade) jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 16);
+            cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
+            jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
+
+            txtGps.setText(jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 17).toString());
+
+            Administradora a = new Administradora();
+
+            a.setFoto((String) jTableAdmin.getValueAt(jTableAdmin.getSelectedRow(), 18));
+            String nomeImagem = a.getFoto();
+
+            if (!nomeImagem.isEmpty()) {
+
+                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
+                lblFoto.setIcon(icone);
+                lblNomeFoto.setText(nomeImagem);
+            } else {
+                JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
+                //Reinicia label foto 
+                lblNomeFoto.setText("");
+                lblNomeFoto.setEnabled(false);
+                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
+            }
+        }
     }//GEN-LAST:event_jTableAdminKeyReleased
 
     private void txtNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNomeKeyPressed
@@ -1485,12 +1510,12 @@ public class FormAdministradora extends javax.swing.JFrame {
         // TODO add your handling code here:
         //testa se os campos obrigatórios estão todos preenchidos
         if ((jFormattedTextCelular.getText().equals("(  )     -    "))
-            || (txtCnpjCpf.getText().isEmpty())
-            || (txtNome.getText().isEmpty())
-            || (txtRua.getText().isEmpty())
-            || (txtBairro.getText().isEmpty())
-            || (txtEmail.getText().isEmpty())
-            || (txtContato.getText().isEmpty())) {
+                || (txtCnpjCpf.getText().isEmpty())
+                || (txtNome.getText().isEmpty())
+                || (txtRua.getText().isEmpty())
+                || (txtBairro.getText().isEmpty())
+                || (txtEmail.getText().isEmpty())
+                || (txtContato.getText().isEmpty())) {
             JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
             txtCnpjCpf.requestFocus();
             return;
@@ -1527,22 +1552,22 @@ public class FormAdministradora extends javax.swing.JFrame {
 
                 File novaImagem = new File("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
 
-                    BufferedImage bi = new BufferedImage(lblFoto.getWidth(), lblFoto.getHeight(), BufferedImage.TYPE_INT_RGB);
-                    Graphics2D g2d = bi.createGraphics();
-                    g2d.drawImage(img, null, null);
-                    g2d.dispose();
-                    try {
-                        ImageIO.write(bi, "JPG", novaImagem);
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Falha na criação, dimensionamento ou gravação do arquivo imagem");
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(null, "Selecione um arquivo de imagem válido");
-
+                BufferedImage bi = new BufferedImage(lblFoto.getWidth(), lblFoto.getHeight(), BufferedImage.TYPE_INT_RGB);
+                Graphics2D g2d = bi.createGraphics();
+                g2d.drawImage(img, null, null);
+                g2d.dispose();
+                try {
+                    ImageIO.write(bi, "JPG", novaImagem);
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Falha na criação, dimensionamento ou gravação do arquivo imagem");
                 }
 
+            } else {
+                JOptionPane.showMessageDialog(null, "Selecione um arquivo de imagem válido");
+
             }
+
+        }
     }//GEN-LAST:event_lblFotoMouseClicked
 
     private void jComboBoxEstadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxEstadoKeyReleased
@@ -1562,6 +1587,13 @@ public class FormAdministradora extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jComboBoxEstadoKeyReleased
+
+    private void jComboBoxEstadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxEstadoKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jComboBoxCidade.requestFocus();
+        }
+    }//GEN-LAST:event_jComboBoxEstadoKeyPressed
 
     /**
      * @param args the command line arguments

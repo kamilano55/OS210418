@@ -67,7 +67,7 @@ public class CidadeDAO {
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.err.println("ErroDAO: " + ex);
+            System.err.println("ErroDAO: updateCidade" + ex);
             return false;
         } finally {
             ConnectionFactory.closeConnection(con, stmt);

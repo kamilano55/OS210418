@@ -79,13 +79,13 @@ public class FormEquipParaOs extends javax.swing.JDialog {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("CADASTRO DE EQUIPAMENTOS PARA OS");
+        setTitle("CADASTRO DE EQUIPAMENTOS NOVO");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         btnCancelar.setBackground(new java.awt.Color(0, 153, 153));
         btnCancelar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
-        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/record_discard.png"))); // NOI18N
+        btnCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_error_35763 (1).png"))); // NOI18N
         btnCancelar.setText("CANCELAR");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -270,8 +270,15 @@ public class FormEquipParaOs extends javax.swing.JDialog {
             eq.setNome(txtNome.getText().toUpperCase());
             eq.setFabricante(txtFabricante.getText().toUpperCase());
             eq.setModelo(txtModelo.getText().toUpperCase());
+            eq.setDt_fabric("dt_fabric");
+            eq.setDt_instal("dt_instal");
+            eq.setGap_manut("0");
+            eq.setHistor_inicial("histor_inicial");
+            eq.setFoto("foto");
+            eq.setDt_ultimanut("dt_ultimanut");
+            eq.setAtendimentos(0);
 
-//As linhas abaixo pegam no combobox, que contem o objeto, o idcliente e o idcontrato
+            //As linhas abaixo pegam no combobox, que contem o objeto, o idcliente e o idcontrato
             Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
             cli.setIdcliente(cli.getIdcliente());
 

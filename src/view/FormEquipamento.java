@@ -43,16 +43,14 @@ public class FormEquipamento extends javax.swing.JFrame {
 
         //A linha abaixo chama a tabela
         readTable();
-
         // Esta linha prenche os comboboxs cliente e contrato
         combobox();
-        //prepara a foto logo de abertura
-        colocaLogo();
-        //desabilita todos os campos
+        //limpa todos os campos
+        limpaCampos();
+        //desabilita campos
         desabilitaCampos();
         //desabilita botões
         desabilitaBottons();
-
     }
 
     public void limpaCampos() {
@@ -65,12 +63,13 @@ public class FormEquipamento extends javax.swing.JFrame {
         txtFabricante.setText("");
         txtModelo.setText("");
         jFormattedTextDtFab.setText("");
+
         jFormattedTextDtInstal.setText("");
         jFormattedTextGap.setText("");
-        jFormattedTextDtUltiManut.setText("");
-        txtAtendimentos.setText("");
         jTextAreaHistInicial.setText("");
-        lblFoto.setText("");
+
+        //Limpa o label da foto e preenche com foto padrão        
+        lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
         lblNomeFoto.setText("");
     }
 
@@ -93,6 +92,8 @@ public class FormEquipamento extends javax.swing.JFrame {
         jFormattedTextDtFab.setEnabled(false);
         jFormattedTextDtInstal.setEnabled(false);
         jFormattedTextGap.setEnabled(false);
+        jFormattedTextDtUltiManut.setEnabled(false);
+        txtAtendimentos.setEnabled(false);
         jTextAreaHistInicial.setEnabled(false);
         lblFoto.setEnabled(false);
     }
@@ -108,6 +109,8 @@ public class FormEquipamento extends javax.swing.JFrame {
         jFormattedTextDtFab.setEnabled(true);
         jFormattedTextDtInstal.setEnabled(true);
         jFormattedTextGap.setEnabled(true);
+        jFormattedTextDtUltiManut.setEnabled(true);
+        txtAtendimentos.setEnabled(true);
         jTextAreaHistInicial.setEnabled(true);
         lblFoto.setEnabled(true);
     }
@@ -141,18 +144,18 @@ public class FormEquipamento extends javax.swing.JFrame {
         for (Equipamento p : edao.readTableAllEquipamento()) {
             modelo.addRow(new Object[]{
                 p.getIdequip(),
-                p.getDt_inic_contrato(),
+                p.getDt_cadastro(),
+                p.getCliente(),
+                p.getContrato(),
                 p.getNome(),
                 p.getFabricante(),
                 p.getModelo(),
                 p.getDt_fabric(),
                 p.getDt_instal(),
+                p.getHistor_inicial(),
                 p.getGap_manut(),
                 p.getDt_ultimanut(),
                 p.getAtendimentos(),
-                p.getHistor_inicial(),
-                p.getCliente(),
-                p.getContrato(),
                 p.getFoto()
             });
         }
@@ -211,22 +214,16 @@ public class FormEquipamento extends javax.swing.JFrame {
         lblNomeFoto = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("DADOS DO EQUIPAMENTO");
+        setTitle("FORMUÁRIO DE CADASTRO DE EQUIPAMENTO");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DO EQUIPAMENTO"));
 
         try {
-            jFormattedTextDtFab.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jFormattedTextDtFab.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextDtFab.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextDtFab.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFormattedTextDtFabActionPerformed(evt);
-            }
-        });
         jFormattedTextDtFab.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jFormattedTextDtFabKeyPressed(evt);
@@ -264,6 +261,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         txtCodigo.setEditable(false);
         txtCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCodigo.setForeground(new java.awt.Color(255, 51, 51));
+        txtCodigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtCodigo.setEnabled(false);
 
         jLabel3.setBackground(new java.awt.Color(102, 153, 255));
@@ -297,14 +295,14 @@ public class FormEquipamento extends javax.swing.JFrame {
                                     .addComponent(lblModelo))
                                 .addGap(24, 24, 24)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(txtModelo, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
                                         .addComponent(lblDtFabric)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jFormattedTextDtFab, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtFabricante, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(28, Short.MAX_VALUE))
+                                        .addComponent(jFormattedTextDtFab, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,18 +337,17 @@ public class FormEquipamento extends javax.swing.JFrame {
         jFormattedTextDtUltiManut.setBackground(new java.awt.Color(255, 255, 255));
         jFormattedTextDtUltiManut.setForeground(new java.awt.Color(255, 51, 51));
         try {
-            jFormattedTextDtUltiManut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jFormattedTextDtUltiManut.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
         jFormattedTextDtUltiManut.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextDtUltiManut.setEnabled(false);
 
         lblUltManut.setText("Dt.Últ.Manut.");
 
         lblGap.setText("* Gap");
 
-        jFormattedTextGap.setText("gap");
+        jFormattedTextGap.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         jFormattedTextGap.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jFormattedTextGapKeyPressed(evt);
@@ -366,11 +363,10 @@ public class FormEquipamento extends javax.swing.JFrame {
         lblDtInstal.setText("Dt.Instal.");
 
         try {
-            jFormattedTextDtInstal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+            jFormattedTextDtInstal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
-        jFormattedTextDtInstal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jFormattedTextDtInstal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jFormattedTextDtInstalKeyPressed(evt);
@@ -383,7 +379,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         txtAtendimentos.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         txtAtendimentos.setForeground(new java.awt.Color(255, 51, 51));
         txtAtendimentos.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtAtendimentos.setEnabled(false);
+        txtAtendimentos.setText("0");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -399,13 +395,13 @@ public class FormEquipamento extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblDtInstal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextDtInstal, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
+                        .addComponent(jFormattedTextDtInstal, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
                         .addComponent(lblGap)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextGap, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(66, 66, 66)
+                        .addGap(18, 18, 18)
+                        .addComponent(jFormattedTextGap, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
                         .addComponent(lblUltManut)
                         .addGap(29, 29, 29)
                         .addComponent(jFormattedTextDtUltiManut, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -438,6 +434,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         btnSair.setBackground(new java.awt.Color(0, 153, 153));
         btnSair.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSair.setForeground(new java.awt.Color(255, 255, 255));
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icon-url-ee.png"))); // NOI18N
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -448,6 +445,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         btnNovo.setBackground(new java.awt.Color(0, 153, 153));
         btnNovo.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnNovo.setForeground(new java.awt.Color(255, 255, 255));
+        btnNovo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_add_35760.png"))); // NOI18N
         btnNovo.setText("NOVO");
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -458,6 +456,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         btnLimpar.setBackground(new java.awt.Color(0, 153, 153));
         btnLimpar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnLimpar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/limpar.png"))); // NOI18N
         btnLimpar.setText("LIMPAR");
         btnLimpar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -468,6 +467,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         btnExcluir.setBackground(new java.awt.Color(0, 153, 153));
         btnExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnExcluir.setForeground(new java.awt.Color(255, 255, 255));
+        btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_delete_35761 (1).png"))); // NOI18N
         btnExcluir.setText("EXCLUIR");
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,6 +478,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         btnAtualizar.setBackground(new java.awt.Color(0, 153, 153));
         btnAtualizar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_edit_35762 (1).png"))); // NOI18N
         btnAtualizar.setText("ATUALIZAR");
         btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -488,6 +489,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
         btnSalvar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnSalvar.setForeground(new java.awt.Color(255, 255, 255));
+        btnSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_add_35760 (1).png"))); // NOI18N
         btnSalvar.setText("SALVAR");
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -553,7 +555,7 @@ public class FormEquipamento extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Cód", "Dt Contrato", "Nome", "Fabricante", "Modelo", "Dt.Fabric", "Dt.Instal.", "Gap", "Dt.Últ.Manut.", "N* OSs", "Hist.Inicial", "Cliente", "Contrato", "Foto"
+                "Cód", "Dt Cadastro", "Cliente", "Contrato", "Nome", "Fabricante", "Modelo", "Dt.Fabric", "Dt.Instal.", "Hist.Inicial", "Gap", "Dt.Últ.Manut.", "Atendim.", "Foto"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -710,22 +712,22 @@ public class FormEquipamento extends javax.swing.JFrame {
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
 
-        //habilita campos
-        habilitarCampos();
-
         //limpa todos os campos
         limpaCampos();
 
-        //prepara a foto logo de abertura
-        colocaLogo();
+        //habilita campos
+        habilitarCampos();
 
-//Prepara botôes
+        //reinicia a tabela
+        readTable();
+
+        //Prepara botôes
         btnLimpar.setEnabled(true);
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnSalvar.setEnabled(true);
 
-//Posiciona o cuesor
+        //Posiciona o cursor
         jComboBoxCliente.requestFocus();
     }//GEN-LAST:event_btnNovoActionPerformed
 
@@ -757,6 +759,7 @@ public class FormEquipamento extends javax.swing.JFrame {
             eq.setDt_instal(jFormattedTextDtInstal.getText());
             eq.setGap_manut(jFormattedTextGap.getText());
             eq.setDt_ultimanut(jFormattedTextDtUltiManut.getText());
+            eq.setAtendimentos(Integer.parseInt(txtAtendimentos.getText()));
             eq.setHistor_inicial(jTextAreaHistInicial.getText());
             eq.setFoto(lblNomeFoto.getText());
 
@@ -770,18 +773,15 @@ public class FormEquipamento extends javax.swing.JFrame {
             eq.setContrato(contrato);
 
             dao.saveEquipamento(eq);
-
-            //Reinicia a tabela        
+            
+             //Reinicia a tabela        
             readTable();
-
-            //desabilita todos os campos
-            desabilitaCampos();
-
-            //prepara a foto logo de abertura
-            colocaLogo();
 
             //limpa todos os campos
             limpaCampos();
+
+            //desabilita todos os campos
+            desabilitaCampos();
 
             //desabilita botões
             desabilitaBottons();
@@ -813,6 +813,8 @@ public class FormEquipamento extends javax.swing.JFrame {
             eq.setDt_fabric(jFormattedTextDtFab.getText());
             eq.setDt_instal(jFormattedTextDtInstal.getText());
             eq.setGap_manut(jFormattedTextGap.getText());
+            eq.setDt_ultimanut(jFormattedTextDtUltiManut.getText());
+            eq.setAtendimentos(Integer.parseInt(txtAtendimentos.getText()));
             eq.setHistor_inicial(jTextAreaHistInicial.getText());
             eq.setFoto(lblNomeFoto.getText());
 
@@ -829,20 +831,17 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             dao.updateEquipamento(eq);
 
-            //Reinicia a tabela        
-            readTable();
+             //limpa todos os campos
+            limpaCampos();
 
             //desabilita todos os campos
             desabilitaCampos();
 
-            //prepara a foto logo de abertura
-            colocaLogo();
-
-            //limpa todos os campos
-            limpaCampos();
-
             //desabilita botões
             desabilitaBottons();
+
+            //Reinicia a tabela        
+            readTable();
 
         } else {
             JOptionPane.showMessageDialog(null, "Verifique os campos cliente e contrato, AMBOS DEVEM SER SELECIONADOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
@@ -863,17 +862,17 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             dao.deleteEquipamento(equip);
 
-            //Atualiza a tabela
-            readTable();
-
-            //limpa todos os campos
+             //limpa todos os campos
             limpaCampos();
 
-            //prepara a foto logo de abertura
-            colocaLogo();
+            //desabilita todos os campos
+            desabilitaCampos();
 
             //desabilita botões
             desabilitaBottons();
+
+            //Reinicia a tabela        
+            readTable();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
 
@@ -888,36 +887,35 @@ public class FormEquipamento extends javax.swing.JFrame {
             //habilita campos
             habilitarCampos();
 
-            // Prepara botões
-            btnLimpar.setEnabled(false);
-            //verifica se o usuario e o administrador geral e se não for desabilita o botão excluir
+            //Prepara bottons
             if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
                 btnExcluir.setEnabled(true);
             } else {
                 btnExcluir.setEnabled(false);
             }
-
+            
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
+            btnLimpar.setEnabled(false);
 
             //Chama os campos da tabela
             txtCodigo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 0).toString());
-            txtNome.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 2).toString());
-            txtFabricante.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 3).toString());
-            txtModelo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 4).toString());
-            jFormattedTextDtFab.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 5).toString());
-            jFormattedTextDtInstal.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 6).toString());
-            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
-            jFormattedTextDtUltiManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
-            txtAtendimentos.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
-            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10).toString());
+            txtNome.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 4).toString());
+            txtFabricante.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 5).toString());
+            txtModelo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 6).toString());
+            jFormattedTextDtFab.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
+            jFormattedTextDtInstal.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
+            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
+            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10).toString());
+            jFormattedTextDtUltiManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11).toString());
+            txtAtendimentos.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12).toString());
 
-            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11);
+            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 2);
             cliente.setIdcliente(Integer.parseInt(String.valueOf(cliente.getIdcliente())));
 //            JOptionPane.showMessageDialog(null, cliente.getIdcliente());
             jComboBoxCliente.setSelectedIndex(cliente.getIdcliente());
 
-            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12);
+            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 3);
             contrato.setIdcontrato(Integer.parseInt(String.valueOf(contrato.getIdcontrato())));
             jComboBoxContrato.setSelectedIndex(contrato.getIdcontrato());
 
@@ -929,11 +927,13 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             if (!nomeImagem.isEmpty()) {
 
-                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
+                ImageIcon icone = new ImageIcon("C:\\Users\\kamil\\Pictures\\Imagens_ProjetoOs\\" + nomeImagem);
                 lblFoto.setIcon(icone);
                 lblNomeFoto.setText(nomeImagem);
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
+                
                 //Reinicia label foto 
                 lblNomeFoto.setText("");
 //                lblNomeFoto.setEnabled(false);
@@ -950,11 +950,8 @@ public class FormEquipamento extends javax.swing.JFrame {
         //Reinicia a tabela
         readTable();
 
-        //prepara a foto logo de abertura
-        colocaLogo();
-
         //Posiciona o cursor
-        txtNome.requestFocus();
+//        txtNome.requestFocus();
 
     }//GEN-LAST:event_btnLimparActionPerformed
 
@@ -969,36 +966,35 @@ public class FormEquipamento extends javax.swing.JFrame {
             //habilita campos
             habilitarCampos();
 
-            // Prepara botões
-            btnLimpar.setEnabled(false);
-
+            //Prepara bottons
             if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
                 btnExcluir.setEnabled(true);
             } else {
                 btnExcluir.setEnabled(false);
             }
-
+            
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
+            btnLimpar.setEnabled(false);
 
             //Chama os campos da tabela
             txtCodigo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 0).toString());
-            txtNome.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 2).toString());
-            txtFabricante.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 3).toString());
-            txtModelo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 4).toString());
-            jFormattedTextDtFab.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 5).toString());
-            jFormattedTextDtInstal.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 6).toString());
-            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
-            jFormattedTextDtUltiManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
-            txtAtendimentos.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
-            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10).toString());
+            txtNome.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 4).toString());
+            txtFabricante.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 5).toString());
+            txtModelo.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 6).toString());
+            jFormattedTextDtFab.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 7).toString());
+            jFormattedTextDtInstal.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 8).toString());
+            jTextAreaHistInicial.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 9).toString());
+            jFormattedTextGap.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 10).toString());
+            jFormattedTextDtUltiManut.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11).toString());
+            txtAtendimentos.setText(jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12).toString());
 
-            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 11);
+            Cliente cliente = (Cliente) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 2);
             cliente.setIdcliente(Integer.parseInt(String.valueOf(cliente.getIdcliente())));
 //            JOptionPane.showMessageDialog(null, cliente.getIdcliente());
             jComboBoxCliente.setSelectedIndex(cliente.getIdcliente());
 
-            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 12);
+            Contrato contrato = (Contrato) jTableEquipamento.getValueAt(jTableEquipamento.getSelectedRow(), 3);
             contrato.setIdcontrato(Integer.parseInt(String.valueOf(contrato.getIdcontrato())));
             jComboBoxContrato.setSelectedIndex(contrato.getIdcontrato());
 
@@ -1010,11 +1006,13 @@ public class FormEquipamento extends javax.swing.JFrame {
 
             if (!nomeImagem.isEmpty()) {
 
-                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
+                ImageIcon icone = new ImageIcon("C:\\Users\\kamil\\Pictures\\Imagens_ProjetoOs\\" + nomeImagem);
                 lblFoto.setIcon(icone);
                 lblNomeFoto.setText(nomeImagem);
+                
             } else {
                 JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
+                
                 //Reinicia label foto 
                 lblNomeFoto.setText("");
 //                lblNomeFoto.setEnabled(false);
@@ -1085,7 +1083,7 @@ public class FormEquipamento extends javax.swing.JFrame {
         if (evt.getClickCount() == 2 && (!txtNome.getText().isEmpty())) {
             JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Procurar arquivos");
-            fc.setCurrentDirectory(new File("C:\\Users\\MILANO\\Pictures"));
+            fc.setCurrentDirectory(new File("C:\\Users\\kamil\\Pictures"));
             fc.setFileFilter(new FileFilter() {
 
                 @Override
@@ -1110,7 +1108,7 @@ public class FormEquipamento extends javax.swing.JFrame {
                 String nomeImagem = System.currentTimeMillis() + ".jpg";
                 lblNomeFoto.setText(nomeImagem);
 
-                File novaImagem = new File("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
+                File novaImagem = new File("C:\\Users\\kamil\\Pictures\\Imagens_ProjetoOs\\" + nomeImagem);
 
                 BufferedImage bi = new BufferedImage(lblFoto.getWidth(), lblFoto.getHeight(), BufferedImage.TYPE_INT_RGB);
                 Graphics2D g2d = bi.createGraphics();
@@ -1129,10 +1127,6 @@ public class FormEquipamento extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_lblFotoMouseClicked
-
-    private void jFormattedTextDtFabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextDtFabActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFormattedTextDtFabActionPerformed
 
     /**
      * @param args the command line arguments

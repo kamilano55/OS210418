@@ -32,7 +32,7 @@ public class OsDAO {
 
     public boolean saveAberturaOs(Os os) {
 
-        String sql = "INSERT INTO os(nome_cliente, nome_equip, defeito, obs, tiposerv_id_tserv, cliente_idcliente, equipamento_idequip) VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO os(nome_cliente, nome_equip, defeito, obs, tiposerv_id_tserv, cliente_idcliente, equipamento_idequip, interna_externa, os_pai, os_filha) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement stmt = null;
 
@@ -47,6 +47,11 @@ public class OsDAO {
             stmt.setInt(5, os.getTiposerv().getId_tserv());
             stmt.setInt(6, os.getCliente().getIdcliente());
             stmt.setInt(7, os.getEquipamento().getIdequip());
+            
+            //As linhas abaixo são para controle das OSs emitidas para controle do fluxo de atendimento de uma mesma solicitação
+            stmt.setString(8, os.getInterna_externa());
+            stmt.setInt(9, os.getOs_pai());
+            stmt.setInt(10, os.getOs_filha());
 
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Salvo com sucesso!! ");
@@ -82,7 +87,7 @@ public class OsDAO {
             stmt.setInt(10, os.getIdos());
 
             stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Amazenado com sucesso!!!! ");
+            JOptionPane.showMessageDialog(null, "Atendimento de OS Armazenado com sucesso!!!! ");
             return true;
 
         } catch (SQLException ex) {
@@ -96,22 +101,28 @@ public class OsDAO {
 
     public boolean updateAbertura(Os os) {
 
-        String sql = "UPDATE os SET nome_cliente = ?, nome_equip = ?, defeito = ?, obs = ?, tiposerv_id_tserv = ?, cliente_idcliente = ?, equipamento_idequip = ? WHERE idos = ?";
+        String sql = "UPDATE os SET defeito = ?, obs = ?, tiposerv_id_tserv = ? WHERE idos = ?";
 
         PreparedStatement stmt = null;
 
         try {
-            stmt = con.prepareStatement(sql);
+             stmt = con.prepareStatement(sql);
 
-            stmt.setString(1, os.getNome_cliente());
-            stmt.setString(2, os.getNome_equip());
-            stmt.setString(3, os.getDefeito());
-            stmt.setString(4, os.getObs());
-            stmt.setInt(5, os.getTiposerv().getId_tserv());
-            stmt.setInt(6, os.getCliente().getIdcliente());
-            stmt.setInt(7, os.getEquipamento().getIdequip());
+//            stmt.setString(1, os.getNome_cliente());
+//            stmt.setString(2, os.getNome_equip());
+            stmt.setString(1, os.getDefeito());
+            stmt.setString(2, os.getObs());
+            
+            stmt.setInt(3, os.getTiposerv().getId_tserv());
+//            stmt.setInt(6, os.getCliente().getIdcliente());
+//            stmt.setInt(7, os.getEquipamento().getIdequip());
+            
+//            //As linhas abaixo são para controle das OSs emitidas para controle do fluxo de atendimento de uma mesma solicitação
+//            stmt.setString(8, os.getInterna_externa());
+//            stmt.setInt(9, os.getOs_pai());
+//            stmt.setInt(10, os.getOs_filha());
 
-            stmt.setInt(8, os.getIdos());
+            stmt.setInt(4, os.getIdos());
 
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "Atualizado com sucesso!! ");

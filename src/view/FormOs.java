@@ -24,12 +24,11 @@ import model.dao.TiposervDAO;
  * @author Master
  */
 public class FormOs extends javax.swing.JFrame {
-    
+
 //    //declaração de variaveis
 //    private String statusPeca;
 //    private String statusRetirado;
 //    private String statusFechada;
-
     /**
      * Creates new form FormOs
      */
@@ -60,7 +59,6 @@ public class FormOs extends javax.swing.JFrame {
 //        statusFechada = "Não";
 //
 //    }
-
     public void desabilitaCampos() {
         jComboBoxCliente.setEnabled(false);
         jComboBoxEquip.setEnabled(false);
@@ -90,6 +88,7 @@ public class FormOs extends javax.swing.JFrame {
         btnLimpar.setEnabled(true);
         btnSalvar.setEnabled(true);
         btnNovoCli.setEnabled(true);
+        btnNovoEquip.setEnabled(false);
         btnAtualizar.setEnabled(false);
         btnExcluir.setEnabled(false);
     }
@@ -123,6 +122,7 @@ public class FormOs extends javax.swing.JFrame {
         jComboBoxTipoServ.setSelectedIndex(0);
         txtObs.setText("");
         txtBuscaCli.setText("");
+        txtCodigoOs.setText("");
 
     }
 
@@ -315,12 +315,14 @@ public class FormOs extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         txtOsConsulta = new javax.swing.JTextField();
         btnOsConsulta = new javax.swing.JButton();
+        lblCodigoOs = new javax.swing.JLabel();
+        txtCodigoOs = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableOsAberta = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("FORMULÁRIO DE MOVIMENTAÇÃO DE ORDEM DE SERVIÇO");
+        setTitle("FORMULÁRIO EMISSÃO DE ORDEM DE SERVIÇO");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         btnSair.setBackground(new java.awt.Color(0, 153, 153));
@@ -372,7 +374,7 @@ public class FormOs extends javax.swing.JFrame {
             jTableCliente.getColumnModel().getColumn(0).setMaxWidth(50);
         }
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS PARA ABERTURA DA 'OS'"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DA 'OS'"));
 
         lblDefeito.setText("*Defeito");
 
@@ -390,9 +392,23 @@ public class FormOs extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxDefeito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Equipamento parado", "Com ruido ao acionar", "Com ruido constante", "Com vibração", "Com atraso", "Com vazamento", " " }));
+        jComboBoxDefeito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha", "Orçamento", "Equipamento parado", "Com ruido ao acionar", "Com ruido constante", "Com vibração", "Com atraso", "Com vazamento", " ", " " }));
 
         jComboBoxEquip.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Escolha" }));
+        jComboBoxEquip.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                jComboBoxEquipPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
+        jComboBoxEquip.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBoxEquipMouseClicked(evt);
+            }
+        });
 
         lblCliente.setText("*Cliente");
 
@@ -445,20 +461,21 @@ public class FormOs extends javax.swing.JFrame {
                             .addComponent(jComboBoxDefeito, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboBoxTipoServ, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jComboBoxEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnNovoEquip))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnNovoCli)
                                 .addGap(18, 18, 18)
-                                .addComponent(jLabel1))))
+                                .addComponent(jLabel1))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jComboBoxEquip, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnNovoEquip)))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(lblObs)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtObs)))
-                .addGap(58, 58, 58))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -473,7 +490,6 @@ public class FormOs extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblEquip)
                     .addComponent(jComboBoxEquip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -570,6 +586,11 @@ public class FormOs extends javax.swing.JFrame {
         btnAtualizar.setForeground(new java.awt.Color(255, 255, 255));
         btnAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/if_building_edit_35762.png"))); // NOI18N
         btnAtualizar.setText("ATUALIZAR");
+        btnAtualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAtualizarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -635,6 +656,12 @@ public class FormOs extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lblCodigoOs.setText("Código da OS selecionada:");
+
+        txtCodigoOs.setEditable(false);
+        txtCodigoOs.setForeground(new java.awt.Color(255, 51, 51));
+        txtCodigoOs.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -645,29 +672,44 @@ public class FormOs extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1330, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(lblCodigoOs, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtCodigoOs, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 94, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCodigoOs)
+                            .addComponent(txtCodigoOs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("RELAÇÃO DAS OS`S DO CLIENTE SELECIONADO"));
@@ -738,7 +780,7 @@ public class FormOs extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(1053, 1053, 1053)
+                        .addGap(1052, 1052, 1052)
                         .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(775, Short.MAX_VALUE))
         );
@@ -748,12 +790,12 @@ public class FormOs extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(2247, 739));
+        pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -765,6 +807,7 @@ public class FormOs extends javax.swing.JFrame {
         readAllTableOsAbertas();
         habilitaBottonsNovo();
         combobox();
+        jComboBoxCliente.requestFocus();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnBuscaCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaCliActionPerformed
@@ -775,8 +818,6 @@ public class FormOs extends javax.swing.JFrame {
         desabilitaCampos();
         combobox();
         readAllTableOsAbertas();
-
-
     }//GEN-LAST:event_btnBuscaCliActionPerformed
 
     private void btnNovoCliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoCliActionPerformed
@@ -846,7 +887,7 @@ public class FormOs extends javax.swing.JFrame {
                 readAllTableCliente();//chama o metodo que preenche a tabela de clientes
                 readAllTableOsAbertas();//chama o metodo que preenche a tabela os
                 combobox();//atualiza os comboboxs cliente e equipamento
-            }else{
+            } else {
                 btnNovoCli.setEnabled(false);
                 jComboBoxDefeito.requestFocus();
             }
@@ -865,50 +906,56 @@ public class FormOs extends javax.swing.JFrame {
             jComboBoxCliente.setSelectedIndex(Integer.parseInt(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0).toString()));
 
             if (jComboBoxCliente.getSelectedItem() != "Escolha") {
-
                 Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
                 cli.setIdcliente(cli.getIdcliente());
 
+                //a linha abaixo lista na tabela de os as oss do cliente selecionado no comboboxcliente quando clicado
+                readAllTableOsAbertasForId(cli.getIdcliente());
+
+                //A linha abaixo carrega o combobox equipamento com os equipamentos do cliente selecionado
                 EquipamentoDAO equipdao = new EquipamentoDAO();
                 jComboBoxEquip.removeAllItems();
                 jComboBoxEquip.addItem("Escolha");
                 for (Equipamento e : equipdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
                     jComboBoxEquip.addItem(e);
                 }
-                //a linha abaixo lista na tabela de os as oss do cliente selecionado no comboboxcliente quando clicado
-                readAllTableOsAbertasForId(cli.getIdcliente());
 
-                //as linhas abaixo pegam o número de itens do combobox equipamentos
+                //a linha abaixo pega o número de itens do combobox equipamentos
                 itensInicial = jComboBoxEquip.getItemCount();
-                // JOptionPane.showMessageDialog(null, "Este cliente tem : " + (numeroDeItens - 1) + " Equipamentos cadastrados");
+//                JOptionPane.showMessageDialog(null, itensInicial);
+
                 //a linha abaixo testa se o combobox equipamento tem apenas a palavra escolha
                 if (itensInicial == 1) {
-                    //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para o novo cliente 
-                    //Cliente cl = (Cliente) jComboBoxCliente.getSelectedItem();
+                    //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para cliente 
                     FormEquipParaOs equip = new FormEquipParaOs(this, rootPaneCheckingEnabled);
                     equip.importaCliente(cli);
                     equip.setVisible(true);
-                    //                    JOptionPane.showMessageDialog(null, "retorno do formulario de cadastro antes de preencher combobox");
+//                    JOptionPane.showMessageDialog(null, "VOLTEI");
 
-                    //as linhas abaixo recarregam o combobox do equipamento do cliente selecionado
+                    //as linhas abaixo recarregam o combobox do equipamento novo para o cliente selecionado
                     EquipamentoDAO eqdao = new EquipamentoDAO();
                     jComboBoxEquip.removeAllItems();
                     jComboBoxEquip.addItem("Escolha");
                     cli.setIdcliente(cli.getIdcliente());
                     for (Equipamento e : eqdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
                         jComboBoxEquip.addItem(e);
-                        jComboBoxEquip.setSelectedItem(e);
+                        jComboBoxEquip.setSelectedItem(e);//esta linha posiciona o combobox no último item de equipamento cadastrado
                     }
+                    //A linha abaixo verifica o número de itens do combobox equipamentos que retornara igual a inicial caso nenhum equipamento novo tenha sido cadastrado
                     itensFinal = jComboBoxEquip.getItemCount();
-                    JOptionPane.showMessageDialog(null, "Itens inicial = " + itensInicial + "Itens final = " + itensFinal);
-                    if (itensInicial == itensFinal) {
-                        JOptionPane.showMessageDialog(null, "Itens inicial = a Itens final");
+
+                    //A linha abaixo verifica se foi acrescentado algum equipamento novo ao cliente se afirmativo deve atualizar o combobox equipamento
+                    if (itensFinal == itensInicial) {
                         limpaCampos();
                         desabilitaBottons();
                         desabilitaCampos();
                         readAllTableCliente();//chama o metodo que preenche a tabela de clientes
                         readAllTableOsAbertas();//chama o metodo que preenche a tabela os
                         combobox();//atualiza os comboboxs cliente e equipamento
+                    } else {
+                        btnNovoCli.setEnabled(false);
+                        btnNovoEquip.setEnabled(false);
+                        jComboBoxDefeito.requestFocus();
                     }
                 }
             }
@@ -944,6 +991,10 @@ public class FormOs extends javax.swing.JFrame {
             Equipamento equip = (Equipamento) jComboBoxEquip.getSelectedItem();
             equip.setIdequip(equip.getIdequip());
             os.setEquipamento(equip);
+
+            os.setInterna_externa("Externa");
+            os.setOs_pai(0);
+            os.setOs_filha(0);
 
             dao.saveAberturaOs(os);
         }
@@ -1034,16 +1085,22 @@ public class FormOs extends javax.swing.JFrame {
             limpaCampos();
             habilitaCampos();
             habilitaBottonsEscolhaOs();
-
+            
+            //pega o codigo da os selecionada na tabela
+            txtCodigoOs.setText(jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 0).toString());
+            
+            //pega o codigo do cliente na tabela
             Cliente c = (Cliente) (jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 2));
             c.setIdcliente(c.getIdcliente());
             jComboBoxCliente.setSelectedIndex(c.getIdcliente());
 
+            //posiciona o cliente no combobox de acordo com a os selecionada 
             if (jComboBoxCliente.getSelectedItem() != "Escolha") {
                 Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
                 cli.setIdcliente(cli.getIdcliente());
                 jComboBoxCliente.setEnabled(false);
 
+                //posiciona o equipamento do cliente em acordo com a os selecionada na tabela
                 comboboxEquipamentoOsClick();
 
                 Equipamento e = (Equipamento) (jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 3));
@@ -1053,13 +1110,14 @@ public class FormOs extends javax.swing.JFrame {
 
                 //pega o defeito na tabela e seleciona i item correspondente no comboboxDefeito
                 jComboBoxDefeito.setSelectedItem(jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 4).toString());
-                String def = (jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 4).toString());
-                JOptionPane.showMessageDialog(null, def);
+//                String def = (jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 4).toString());
+
                 //pega tiposerv do objeto tipo serv e seleciona o combobox
                 Tiposerv ts = (Tiposerv) jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 5);
                 ts.setId_tserv(Integer.parseInt(String.valueOf(ts.getId_tserv())));
                 jComboBoxTipoServ.setSelectedIndex(ts.getId_tserv());
 
+                //pega o texto da obs da tabela e coloca no campo
                 txtObs.setText(jTableOsAberta.getValueAt(jTableOsAberta.getSelectedRow(), 6).toString());
             }
         }
@@ -1067,8 +1125,10 @@ public class FormOs extends javax.swing.JFrame {
 
     private void btnNovoEquipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoEquipActionPerformed
         // TODO add your handling code here:
-        int itensInicial = jComboBoxEquip.getItemCount();
+        int itensInicial = 0;
+        jComboBoxEquip.getItemCount();
         int itensFinal = 0;
+        itensInicial = jComboBoxEquip.getItemCount();
 
         //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para o novo cliente 
         Cliente cl = (Cliente) jComboBoxCliente.getSelectedItem();
@@ -1095,22 +1155,28 @@ public class FormOs extends javax.swing.JFrame {
             readAllTableCliente();//chama o metodo que preenche a tabela de clientes
             readAllTableOsAbertas();//chama o metodo que preenche a tabela os
             combobox();//atualiza os comboboxs cliente e equipamento
+        }else{
+            jComboBoxDefeito.requestFocus();
         }
 
     }//GEN-LAST:event_btnNovoEquipActionPerformed
 
     private void jComboBoxClientePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxClientePopupMenuWillBecomeInvisible
-        // Este método garante que quando trocado o cliente será carregado os equipamentos no combobox equipamentos
+        // TODO add your handling code here:
         //inicialização de variáveis
-        int itensInicial = 0;
-        int itensFinal = 0;
+//        int itensInicial = 0;
+//        int itensFinal = 0;
 
         //as linhas testam se combobox habilitado.se estiver e tiver um cliente selecionado preenche o combobox equipamento se não limpa ele e adciona apenas escolha
         if (jComboBoxCliente.getSelectedItem() != ("Escolha")) {
 
             btnNovoCli.setEnabled(false);
+            btnNovoEquip.setEnabled(true);
             Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
             cli.setIdcliente(cli.getIdcliente());
+
+            //mostra na tabela de OS as OSs correspondente ao cliente selecionado
+            readAllTableOsAbertasForId(cli.getIdcliente());
 
             EquipamentoDAO equipdao = new EquipamentoDAO();
             jComboBoxEquip.removeAllItems();
@@ -1118,38 +1184,205 @@ public class FormOs extends javax.swing.JFrame {
             for (Equipamento e : equipdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
                 jComboBoxEquip.addItem(e);
             }
-
-            //as linhas abaixo pegam o n[umero de itens do combobox equipamentos
-            itensInicial = jComboBoxEquip.getItemCount();
-
-            //a linha abaixo testa se o combobox tem apenas a palavra escolha
-            if (itensInicial == 1) {
-                //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para o novo cliente 
-                //                Cliente cl = (Cliente) jComboBoxCliente.getSelectedItem();
-                FormEquipParaOs equip = new FormEquipParaOs(this, rootPaneCheckingEnabled);
-                equip.importaCliente(cli);
-                equip.setVisible(true);
-
-                //as linhas abaixo recarregam o combobox do equipamento do novo cliente cadastrado
-                EquipamentoDAO eqdao = new EquipamentoDAO();
-                jComboBoxEquip.removeAllItems();
-                jComboBoxEquip.addItem("Escolha");
-                cli.setIdcliente(cli.getIdcliente());
-                for (Equipamento e : eqdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
-                    jComboBoxEquip.addItem(e);
-                    jComboBoxEquip.setSelectedItem(e);
-                }
-                if (itensInicial == itensFinal) {
-                    limpaCampos();
-                    desabilitaBottons();
-                    desabilitaCampos();
-                    readAllTableCliente();//chama o metodo que preenche a tabela de clientes
-                    readAllTableOsAbertas();//chama o metodo que preenche a tabela os
-                    combobox();//atualiza os combobox cliente
-                }
-            }
+            jComboBoxEquip.requestFocus();
         }
+
+//        //a linha abaixo pega o número de itens do combobox equipamentos
+//        itensInicial = jComboBoxEquip.getItemCount();
+//
+//        //a linha abaixo testa se o combobox tem apenas a palavra escolha e se for assim, abre o form para cadastro e um novo equipamento 
+//        if (itensInicial == 1) {
+//            //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para o novo cliente 
+//            Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
+//            cli.setIdcliente(cli.getIdcliente());
+//            FormEquipParaOs equip = new FormEquipParaOs(this, rootPaneCheckingEnabled);
+//            equip.importaCliente(cli);
+//            equip.setVisible(true);
+//
+//            //as linhas abaixo recarregam o combobox do equipamento do cliente cadastrado e posiciona no novo equipamento
+//            EquipamentoDAO eqdao = new EquipamentoDAO();
+//            jComboBoxEquip.removeAllItems();
+//            jComboBoxEquip.addItem("Escolha");
+//            for (Equipamento e : eqdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
+//                jComboBoxEquip.addItem(e);
+//                jComboBoxEquip.setSelectedItem(e);
+//            }
+//            
+//            //pega a quantidade de itens do combobox equipamento apois a carga para verificar se foi cadastrado um novo equipamento para o cliente selecionado
+//            itensFinal = jComboBoxEquip.getItemCount();
+//            
+//            //As linhas abaixo reinicia o sistema caso nao tenha sido cadastrado um novo equipamento - caso em que a tecla CANCELAR seja presionada
+//            if (itensInicial == itensFinal) {
+//                limpaCampos();
+//                desabilitaBottons();
+//                desabilitaCampos();
+//                readAllTableCliente();//chama o metodo que preenche a tabela de clientes
+//                readAllTableOsAbertas();//chama o metodo que preenche a tabela os
+//                combobox();//atualiza os combobox cliente
+//            } else {
+//                jComboBoxDefeito.requestFocus();
+//            }
+//        } else {
+//            jComboBoxEquip.requestFocus();
+//        }
     }//GEN-LAST:event_jComboBoxClientePopupMenuWillBecomeInvisible
+
+    private void jComboBoxEquipPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxEquipPopupMenuWillBecomeInvisible
+        // TODO add your handling code here:
+//        //inicialização de variáveis
+//        int itensInicial = 0;
+//        int itensFinal = 0;
+//
+//        //as linhas testam se combobox habilitado.se estiver e tiver um cliente selecionado preenche o combobox equipamento se não limpa ele e adciona apenas escolha
+//        if (jComboBoxCliente.getSelectedItem() != ("Escolha")) {
+//
+//            btnNovoCli.setEnabled(false);
+//            Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
+//            cli.setIdcliente(cli.getIdcliente());
+//
+//            //mostra na tabela de OS as OSs correspondente ao cliente selecionado
+//            readAllTableOsAbertasForId(cli.getIdcliente());
+//
+//            EquipamentoDAO equipdao = new EquipamentoDAO();
+//            jComboBoxEquip.removeAllItems();
+//            jComboBoxEquip.addItem("Escolha");
+//            for (Equipamento e : equipdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
+//                jComboBoxEquip.addItem(e);
+//            }
+//        }
+//
+//        //a linha abaixo pega o número de itens do combobox equipamentos
+//        itensInicial = jComboBoxEquip.getItemCount();
+//
+//        //a linha abaixo testa se o combobox tem apenas a palavra escolha e se for assim, abre o form para cadastro e um novo equipamento 
+//        if (itensInicial == 1) {
+//            //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para o novo cliente 
+//            Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
+//            cli.setIdcliente(cli.getIdcliente());
+//            FormEquipParaOs equip = new FormEquipParaOs(this, rootPaneCheckingEnabled);
+//            equip.importaCliente(cli);
+//            equip.setVisible(true);
+//
+//            //as linhas abaixo recarregam o combobox do equipamento do cliente cadastrado e posiciona no novo equipamento
+//            EquipamentoDAO eqdao = new EquipamentoDAO();
+//            jComboBoxEquip.removeAllItems();
+//            jComboBoxEquip.addItem("Escolha");
+//            for (Equipamento e : eqdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
+//                jComboBoxEquip.addItem(e);
+//                jComboBoxEquip.setSelectedItem(e);
+//            }
+//            
+//            //pega a quantidade de itens do combobox equipamento apois a carga para verificar se foi cadastrado um novo equipamento para o cliente selecionado
+//            itensFinal = jComboBoxEquip.getItemCount();
+//            
+//            //As linhas abaixo reinicia o sistema caso nao tenha sido cadastrado um novo equipamento - caso em que a tecla CANCELAR seja presionada
+//            if (itensInicial == itensFinal) {
+//                limpaCampos();
+//                desabilitaBottons();
+//                desabilitaCampos();
+//                readAllTableCliente();//chama o metodo que preenche a tabela de clientes
+//                readAllTableOsAbertas();//chama o metodo que preenche a tabela os
+//                combobox();//atualiza os combobox cliente
+//            } else {
+//                jComboBoxDefeito.requestFocus();
+//            }
+//        } else {
+//            jComboBoxEquip.requestFocus();
+//        }
+    }//GEN-LAST:event_jComboBoxEquipPopupMenuWillBecomeInvisible
+
+    private void jComboBoxEquipMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBoxEquipMouseClicked
+        // TODO add your handling code here:
+//      inicialização de variáveis
+        int itensInicial = 0;
+        int itensFinal = 0;
+        
+//        a linha abaixo pega o número de itens do combobox equipamentos
+        itensInicial = jComboBoxEquip.getItemCount();
+
+        //a linha abaixo testa se o combobox tem apenas a palavra escolha e se for assim, abre o form para cadastro e um novo equipamento 
+        if (itensInicial == 1) {
+            //as linhas abaixo pegam o codigo do cliente diretamente no combobox de cliente e abre o kickformulario de equipamentos para o novo cliente 
+            Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
+            cli.setIdcliente(cli.getIdcliente());
+            FormEquipParaOs equip = new FormEquipParaOs(this, rootPaneCheckingEnabled);
+            equip.importaCliente(cli);
+            equip.setVisible(true);
+
+            //as linhas abaixo recarregam o combobox do equipamento do cliente cadastrado e posiciona no novo equipamento
+            EquipamentoDAO eqdao = new EquipamentoDAO();
+            jComboBoxEquip.removeAllItems();
+            jComboBoxEquip.addItem("Escolha");
+            for (Equipamento e : eqdao.readAllEquipamentoForComboboxOs(cli.getIdcliente())) {
+                jComboBoxEquip.addItem(e);
+                jComboBoxEquip.setSelectedItem(e);
+            }
+            
+            //pega a quantidade de itens do combobox equipamento apois a carga para verificar se foi cadastrado um novo equipamento para o cliente selecionado
+            itensFinal = jComboBoxEquip.getItemCount();
+            
+            //As linhas abaixo reinicia o sistema caso nao tenha sido cadastrado um novo equipamento - caso em que a tecla CANCELAR seja presionada
+            if (itensInicial == itensFinal) {
+                limpaCampos();
+                desabilitaBottons();
+                desabilitaCampos();
+                readAllTableCliente();//chama o metodo que preenche a tabela de clientes
+                readAllTableOsAbertas();//chama o metodo que preenche a tabela os
+                combobox();//atualiza os combobox cliente
+            } else {
+                jComboBoxDefeito.requestFocus();
+            }
+        } 
+    }//GEN-LAST:event_jComboBoxEquipMouseClicked
+
+    private void btnAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAtualizarActionPerformed
+        // TODO add your handling code here:
+        if (jComboBoxCliente.getSelectedIndex() == 0
+                || jComboBoxEquip.getSelectedIndex() == 0
+                || jComboBoxDefeito.getSelectedIndex() == 0
+                || jComboBoxTipoServ.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Verifique os campos obrigatórios, TODOS DEVEM ESTAR PREENCHIDOS!! ", "AVISO", JOptionPane.WARNING_MESSAGE);
+            return;
+        } else {
+            Os os = new Os();
+            OsDAO dao = new OsDAO();
+
+//            os.setNome_cliente(jComboBoxCliente.getSelectedItem().toString().toUpperCase());
+////            JOptionPane.showMessageDialog(null, jComboBoxCliente.getSelectedItem().toString().toUpperCase());
+//            os.setNome_equip(jComboBoxEquip.getSelectedItem().toString().toUpperCase());
+            os.setDefeito(jComboBoxDefeito.getSelectedItem().toString());
+            os.setObs(txtObs.getText().toUpperCase());
+
+            Tiposerv ts = (Tiposerv) jComboBoxTipoServ.getSelectedItem();
+            ts.setId_tserv(ts.getId_tserv());
+            os.setTiposerv(ts);
+//
+//            Cliente cli = (Cliente) jComboBoxCliente.getSelectedItem();
+//            cli.setIdcliente(cli.getIdcliente());
+//            os.setCliente(cli);
+//
+//            Equipamento equip = (Equipamento) jComboBoxEquip.getSelectedItem();
+//            equip.setIdequip(equip.getIdequip());
+//            os.setEquipamento(equip);
+
+//            os.setInterna_externa("Externa");
+//            os.setOs_pai(0);
+//            os.setOs_filha(0);
+            
+//            JOptionPane.showMessageDialog(null, Integer.parseInt(txtCodigoOs.getText()));
+            
+            os.setIdos(Integer.parseInt(txtCodigoOs.getText()));
+            
+
+            dao.updateAbertura(os);
+        }
+        desabilitaBottons();
+        limpaCampos();
+        desabilitaCampos();
+        readAllTableCliente();
+        readAllTableOsAbertas();
+        combobox();
+    }//GEN-LAST:event_btnAtualizarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1165,16 +1398,24 @@ public class FormOs extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormOs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOs.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormOs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOs.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormOs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOs.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormOs.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormOs.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -1214,11 +1455,13 @@ public class FormOs extends javax.swing.JFrame {
     private javax.swing.JTable jTableCliente;
     private javax.swing.JTable jTableOsAberta;
     private javax.swing.JLabel lblCliente;
+    private javax.swing.JLabel lblCodigoOs;
     private javax.swing.JLabel lblDefeito;
     private javax.swing.JLabel lblEquip;
     private javax.swing.JLabel lblObs;
     private javax.swing.JLabel lblServico;
     private javax.swing.JTextField txtBuscaCli;
+    private javax.swing.JTextField txtCodigoOs;
     private javax.swing.JTextField txtObs;
     private javax.swing.JTextField txtOsConsulta;
     // End of variables declaration//GEN-END:variables

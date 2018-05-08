@@ -55,6 +55,11 @@ public class FormMenu extends javax.swing.JFrame {
         btnOrdAtend = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        btnCidade = new javax.swing.JButton();
+        btnContrato = new javax.swing.JButton();
+        btnEstado = new javax.swing.JButton();
+        btnTipoServ = new javax.swing.JButton();
+        btnUsuario = new javax.swing.JButton();
         lblUsuario = new javax.swing.JLabel();
         lblData = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
@@ -177,6 +182,41 @@ public class FormMenu extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 153, 153));
         jLabel8.setText("Enterdata Sistemas & Projetos");
 
+        btnCidade.setText("Cidade");
+        btnCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCidadeActionPerformed(evt);
+            }
+        });
+
+        btnContrato.setText("Contrato");
+        btnContrato.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnContratoActionPerformed(evt);
+            }
+        });
+
+        btnEstado.setText("Estado");
+        btnEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstadoActionPerformed(evt);
+            }
+        });
+
+        btnTipoServ.setText("Tipo de Serviço");
+        btnTipoServ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTipoServActionPerformed(evt);
+            }
+        });
+
+        btnUsuario.setText("Usuario");
+        btnUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUsuarioActionPerformed(evt);
+            }
+        });
+
         jDesktopmenu.setLayer(btnCli, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopmenu.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopmenu.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -199,6 +239,11 @@ public class FormMenu extends javax.swing.JFrame {
         jDesktopmenu.setLayer(btnOrdAtend, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopmenu.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopmenu.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopmenu.setLayer(btnCidade, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopmenu.setLayer(btnContrato, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopmenu.setLayer(btnEstado, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopmenu.setLayer(btnTipoServ, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopmenu.setLayer(btnUsuario, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopmenuLayout = new javax.swing.GroupLayout(jDesktopmenu);
         jDesktopmenu.setLayout(jDesktopmenuLayout);
@@ -208,12 +253,34 @@ public class FormMenu extends javax.swing.JFrame {
                 .addGap(60, 60, 60)
                 .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                        .addGap(183, 183, 183)
+                                        .addComponent(jLabel4)
+                                        .addGap(199, 199, 199)
+                                        .addComponent(jLabel5))
+                                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                        .addGap(269, 269, 269)
+                                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(159, Short.MAX_VALUE))
+                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
                         .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(btnCli, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnEquipa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnForn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnCidade, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnContrato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnEstado, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnTipoServ, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDesktopmenuLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -236,28 +303,11 @@ public class FormMenu extends javax.swing.JFrame {
                                     .addComponent(btnAdminRel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnTServRel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnFornRel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                                        .addGap(183, 183, 183)
-                                        .addComponent(jLabel4)
-                                        .addGap(199, 199, 199)
-                                        .addComponent(jLabel5))
-                                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                                        .addGap(269, 269, 269)
-                                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel6)
-                                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 990, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(102, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopmenuLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel8)
-                .addContainerGap())
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel8)
+                                .addContainerGap())))))
         );
         jDesktopmenuLayout.setVerticalGroup(
             jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,41 +330,56 @@ public class FormMenu extends javax.swing.JFrame {
                     .addGroup(jDesktopmenuLayout.createSequentialGroup()
                         .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                                .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnAdmin)
-                                    .addComponent(btnTServ))
                                 .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnCli)
-                                        .addGap(18, 18, 18)
+                                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(btnAdmin)
+                                            .addComponent(btnTServ))
+                                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(btnOrdAtend))
+                                            .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(btnCidade)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnCli)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnEquipa)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnForn))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnContrato)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnEquipa))
                                     .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                        .addComponent(btnCliRel)
                                         .addGap(18, 18, 18)
-                                        .addComponent(btnOrdAtend))))
+                                        .addComponent(btnTContRel)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnTServRel)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnAdminRel)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnFornRel)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEstado)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnForn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabel8))
+                                    .addGroup(jDesktopmenuLayout.createSequentialGroup()
+                                        .addComponent(btnTipoServ)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jDesktopmenuLayout.createSequentialGroup()
-                                .addComponent(btnCliRel)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnTContRel)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnTServRel)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnAdminRel)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnFornRel)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 145, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDesktopmenuLayout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(jDesktopmenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator3)
-                            .addComponent(jSeparator2))
-                        .addGap(74, 74, 74))))
+                                .addGap(41, 41, 41)
+                                .addComponent(jSeparator3)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUsuario)
+                        .addGap(9, 9, 9))
+                    .addComponent(jSeparator2))
+                .addGap(50, 50, 50))
         );
 
         lblUsuario.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -669,6 +734,36 @@ public class FormMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuRelEstCidActionPerformed
 
+    private void btnCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCidadeActionPerformed
+        // TODO add your handling code here:
+        FormCidade cid = new FormCidade();
+        cid.setVisible(true);
+    }//GEN-LAST:event_btnCidadeActionPerformed
+
+    private void btnEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstadoActionPerformed
+        // TODO add your handling code here:
+        FormEstado est = new FormEstado();
+        est.setVisible(true);
+    }//GEN-LAST:event_btnEstadoActionPerformed
+
+    private void btnTipoServActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoServActionPerformed
+        // TODO add your handling code here:
+        FormTipoServ serv = new FormTipoServ();
+        serv.setVisible(true);
+    }//GEN-LAST:event_btnTipoServActionPerformed
+
+    private void btnUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuarioActionPerformed
+        // TODO add your handling code here:
+        FormUsuario usu = new FormUsuario();
+        usu.setVisible(true);
+    }//GEN-LAST:event_btnUsuarioActionPerformed
+
+    private void btnContratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnContratoActionPerformed
+        // TODO add your handling code here:
+        FormContrato cont = new FormContrato();
+        cont.setVisible(true);
+    }//GEN-LAST:event_btnContratoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -710,15 +805,20 @@ public class FormMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnAdminRel;
+    public static javax.swing.JButton btnCidade;
     private javax.swing.JButton btnCli;
     private javax.swing.JButton btnCliRel;
+    public static javax.swing.JButton btnContrato;
     private javax.swing.JButton btnEquipa;
+    public static javax.swing.JButton btnEstado;
     private javax.swing.JButton btnForn;
     private javax.swing.JButton btnFornRel;
     private javax.swing.JButton btnOrdAtend;
     private javax.swing.JButton btnTContRel;
     private javax.swing.JButton btnTServ;
     private javax.swing.JButton btnTServRel;
+    public static javax.swing.JButton btnTipoServ;
+    public static javax.swing.JButton btnUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopmenu;
     private javax.swing.JLabel jLabel1;

@@ -117,7 +117,7 @@ public class FormContrato extends javax.swing.JFrame {
         btnConsulta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE CONTRATOS TIPO PADRÃO");
+        setTitle("CADASTRO DE CONTRATO TIPO PADRÃO");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
         setPreferredSize(new java.awt.Dimension(1370, 700));
 

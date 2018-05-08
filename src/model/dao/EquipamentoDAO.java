@@ -27,14 +27,13 @@ public class EquipamentoDAO {
 
     public EquipamentoDAO() {
 
-        con = connection.ConnectionFactory.getConnection();
+        con = ConnectionFactory.getConnection();
 
     }
 
     public boolean saveEquipamento(Equipamento equipamento) {
 
-        String sql = "INSERT INTO equipamento(nome, fabricante,  modelo, dt_fabric, dt_instal, gap_manut, dt_ultimanut, histor_inicial, "
-                + " foto, cliente_idcliente, contrato_idcontrato) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO equipamento(nome, fabricante,  modelo, dt_fabric, dt_instal, gap_manut, histor_inicial, foto, dt_ultimanut, atendimentos, cliente_idcliente, contrato_idcontrato) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement stmt = null;
 
@@ -47,11 +46,12 @@ public class EquipamentoDAO {
             stmt.setString(4, equipamento.getDt_fabric());
             stmt.setString(5, equipamento.getDt_instal());
             stmt.setString(6, equipamento.getGap_manut());
-            stmt.setString(7, equipamento.getDt_ultimanut());
-            stmt.setString(8, equipamento.getHistor_inicial());
-            stmt.setString(9, equipamento.getFoto());
-            stmt.setInt(10, equipamento.getCliente().getIdcliente());
-            stmt.setInt(11, equipamento.getContrato().getIdcontrato());
+            stmt.setString(7, equipamento.getHistor_inicial());
+            stmt.setString(8, equipamento.getFoto());
+            stmt.setString(9, equipamento.getDt_ultimanut());
+            stmt.setInt(10, equipamento.getAtendimentos());
+            stmt.setInt(11, equipamento.getCliente().getIdcliente());
+            stmt.setInt(12, equipamento.getContrato().getIdcontrato());
 
             stmt.executeUpdate();
 
@@ -69,7 +69,7 @@ public class EquipamentoDAO {
     public boolean updateEquipamento(Equipamento equipamento) {
 
         String sql = "UPDATE equipamento SET nome = ?, fabricante = ?,  modelo = ?, dt_fabric = ?, dt_instal = ?, gap_manut = ?, histor_inicial = ?, "
-                + " foto = ?, cliente_idcliente = ?, contrato_idcontrato = ? WHERE idequip = ?";
+                + " foto = ?, dt_ultimanut = ?, atendimentos = ?, cliente_idcliente = ?, contrato_idcontrato = ? WHERE idequip = ?";
 
         PreparedStatement stmt = null;
 
@@ -84,10 +84,12 @@ public class EquipamentoDAO {
             stmt.setString(6, equipamento.getGap_manut());
             stmt.setString(7, equipamento.getHistor_inicial());
             stmt.setString(8, equipamento.getFoto());
-            stmt.setInt(9, equipamento.getCliente().getIdcliente());
-            stmt.setInt(10, equipamento.getContrato().getIdcontrato());
+            stmt.setString(9, equipamento.getDt_ultimanut());
+            stmt.setInt(10, equipamento.getAtendimentos());
+            stmt.setInt(11, equipamento.getCliente().getIdcliente());
+            stmt.setInt(12, equipamento.getContrato().getIdcontrato());
 
-            stmt.setInt(11, equipamento.getIdequip());
+            stmt.setInt(13, equipamento.getIdequip());
 
             stmt.executeUpdate();
 
@@ -151,7 +153,7 @@ public class EquipamentoDAO {
                 equipamento.setGap_manut(rs.getString("gap_manut"));
                 equipamento.setDt_ultimanut(rs.getString("dt_ultimanut"));
                 equipamento.setAtendimentos(rs.getInt("atendimentos"));
-                equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
+                equipamento.setDt_cadastro(rs.getString("dt_cadastro"));
                 equipamento.setFoto(rs.getString("foto"));
 
                 Cliente cliente = new Cliente();
@@ -201,7 +203,7 @@ public class EquipamentoDAO {
                 equipamento.setGap_manut(rs.getString("gap_manut"));
                 equipamento.setDt_ultimanut(rs.getString("dt_ultimanut"));
                 equipamento.setAtendimentos(rs.getInt("atendimentos"));
-                equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
+                equipamento.setDt_cadastro(rs.getString("dt_cadastro"));
                 equipamento.setFoto(rs.getString("foto"));
 
                 Cliente cliente = new Cliente();
@@ -234,7 +236,7 @@ public class EquipamentoDAO {
         List<Equipamento> equipamentos = new ArrayList<>();
 
         try {
-            stmt = con.prepareStatement("SELECT e.idequip, e.dt_inic_contrato, e.nome, e.fabricante, e.modelo, e.dt_fabric, e.dt_instal,"
+            stmt = con.prepareStatement("SELECT e.idequip, e.dt_cadastro, e.nome, e.fabricante, e.modelo, e.dt_fabric, e.dt_instal,"
                     + " e.gap_manut, e.dt_ultimanut, e.atendimentos,  e.histor_inicial, e.foto, cl.idcliente, cl.nome as clinome, co.idcontrato,"
                     + " co.tipodesc"
                     + " FROM equipamento e"
@@ -247,7 +249,7 @@ public class EquipamentoDAO {
                 Equipamento equipamento = new Equipamento();
 
                 equipamento.setIdequip(rs.getInt("idequip"));
-                equipamento.setDt_inic_contrato(rs.getString("dt_inic_contrato"));
+                equipamento.setDt_cadastro(rs.getString("dt_cadastro"));
                 equipamento.setNome(rs.getString("nome"));
                 equipamento.setFabricante(rs.getString("fabricante"));
                 equipamento.setModelo(rs.getString("modelo"));

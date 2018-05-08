@@ -100,6 +100,7 @@ public class FormTipoServ extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("FORMULÁRIO DE CADASTRO DE SERVIÇOS");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         txtPreco.addKeyListener(new java.awt.event.KeyAdapter() {

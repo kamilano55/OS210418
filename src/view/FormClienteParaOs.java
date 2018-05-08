@@ -97,7 +97,7 @@ public class FormClienteParaOs extends javax.swing.JDialog {
         jButton2.setText("jButton2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("CADASTRO DE NOVOS CLIENTES PARA 'OS'");
+        setTitle("FORMUÁRIO DE CADASTRO DE NOVO CLIENTE");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
         setResizable(false);
 

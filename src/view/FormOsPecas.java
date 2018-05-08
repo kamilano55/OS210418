@@ -85,7 +85,7 @@ public class FormOsPecas extends javax.swing.JDialog {
         btnSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("CADASTRO DE PEÇAS PARA ATENDIMENTO DAS OS's");
+        setTitle("FORMUÁRIO DE CADASTRO DE PEÇAS PARA ATENDIMENTO DAS OS's");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         btnSair.setBackground(new java.awt.Color(0, 153, 153));

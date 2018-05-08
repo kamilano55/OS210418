@@ -21,7 +21,7 @@ public class Equipamento {
     private String gap_manut;
     private String dt_ultimanut;
     private int atendimentos;
-    private String dt_inic_contrato;
+    private String dt_cadastro;
     private String foto;
     private Cliente cliente;
     private Contrato contrato;
@@ -40,7 +40,7 @@ public class Equipamento {
         this.gap_manut = gap_manut;
         this.dt_ultimanut = dt_ultimanut;
         this.atendimentos = atendimentos;
-        this.dt_inic_contrato = dt_inic_contrato;
+        this.dt_cadastro = dt_cadastro;
         this.foto = foto;
         this.cliente = cliente;
         this.contrato = contrato;
@@ -129,14 +129,12 @@ public class Equipamento {
         this.atendimentos = atendimentos;
     }
 
-   
-    
-    public String getDt_inic_contrato() {
-        return dt_inic_contrato;
+    public String getDt_cadastro() {
+        return dt_cadastro;
     }
 
-    public void setDt_inic_contrato(String dt_inic_contrato) {
-        this.dt_inic_contrato = dt_inic_contrato;
+    public void setDt_cadastro(String dt_cadastro) {
+        this.dt_cadastro = dt_cadastro;
     }
 
     public String getFoto() {

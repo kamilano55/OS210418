@@ -157,7 +157,7 @@ public class FormUsuario extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE USUÁRIOS");
+        setTitle("FORMUÁRIO DE CADASTRO DE USUÁRIOS");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("DADOS DO USUÁRIO"));

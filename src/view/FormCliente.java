@@ -33,20 +33,20 @@ import model.dao.EstadoDAO;
 public class FormCliente extends javax.swing.JFrame {
 
     /**
-     * Creates new form FormAdministradora
+     * Creates new form FormCliente
      */
     public FormCliente() {
         initComponents();
 
-        //As linhas abaixo servem para ordenar a JTableAdmin
+        //As linhas abaixo servem para ordenar a JTableCliente
         DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
         jTableCliente.setRowSorter(new TableRowSorter(modelo));
 
         //A linha abaixo chama o método que preenche a tabela lendo os dados do banco 
         readTable();
         // a linha abaixo chama o método que prepara os combobox estado e cidade lendo do banco
-        comboBoxEstado();
-        comboBoxCidade();
+        comboBox();
+//        comboBoxCidade();
 //        comboBoxCidadeCompleta();
         //As linhas abaixo preparam botões e campos iniciais
         inicializaSistema();
@@ -90,9 +90,9 @@ public class FormCliente extends javax.swing.JFrame {
         btnAtualizar.setEnabled(false);
         btnSalvar.setEnabled(false);
         btnSair.setEnabled(true);
-        
-        //recarrego o comboboxCidade com todas as cidades
-            comboBoxCidade();
+
+//        //recarrego o comboboxCidade com todas as cidades
+//            comboBoxCidade();
     }
 
     public void limpaCampos() {
@@ -179,7 +179,7 @@ public class FormCliente extends javax.swing.JFrame {
     }
 
     //As linhas abaixo preenchem os combobox estado
-    public void comboBoxEstado() {
+    public void comboBox() {
 
         EstadoDAO estdao = new EstadoDAO();
         jComboBoxEstado.removeAllItems();
@@ -187,18 +187,34 @@ public class FormCliente extends javax.swing.JFrame {
         for (Estado e : estdao.readAllEstado()) {
             jComboBoxEstado.addItem(e);
         }
-    }
-
-    public void comboBoxCidade() {
-
-        CidadeDAO citdao = new CidadeDAO();
-        jComboBoxCidade.removeAllItems();
-        jComboBoxCidade.addItem("Escolha");
-        for (Cidade c : citdao.readAllCidade()) {
-            jComboBoxCidade.addItem(c);
+        if (jComboBoxEstado.getSelectedIndex() == 0) {
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readAllCidade()) {
+                jComboBoxCidade.addItem(c);
+            }
+        } else {
+            Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
+            estado.setIdestado(estado.getIdestado());
+            CidadeDAO citdao = new CidadeDAO();
+            jComboBoxCidade.removeAllItems();
+            jComboBoxCidade.addItem("Escolha");
+            for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
+                jComboBoxCidade.addItem(c);
+            }
         }
     }
 
+//    public void comboBoxCidade() {
+//
+//        CidadeDAO citdao = new CidadeDAO();
+//        jComboBoxCidade.removeAllItems();
+//        jComboBoxCidade.addItem("Escolha");
+//        for (Cidade c : citdao.readAllCidade()) {
+//            jComboBoxCidade.addItem(c);
+//        }
+//    }
     //Monta a tabela de Clientes
     public void readTable() {
         DefaultTableModel modelo = (DefaultTableModel) jTableCliente.getModel();
@@ -337,11 +353,12 @@ public class FormCliente extends javax.swing.JFrame {
         jTableCliente = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CADASTRO DE CLIENTE");
+        setTitle("FORMUÁRIO DE CADASTRO DE CLIENTE");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         txtId.setEditable(false);
         txtId.setForeground(new java.awt.Color(255, 51, 51));
+        txtId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtId.setToolTipText("Código da Administradora no BD");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("ENDEREÇO"));
@@ -415,6 +432,9 @@ public class FormCliente extends javax.swing.JFrame {
             }
         });
         jComboBoxEstado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jComboBoxEstadoKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 jComboBoxEstadoKeyReleased(evt);
             }
@@ -861,6 +881,7 @@ public class FormCliente extends javax.swing.JFrame {
 
         btnSair.setBackground(new java.awt.Color(0, 153, 153));
         btnSair.setForeground(new java.awt.Color(255, 255, 255));
+        btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/icon-url-ee.png"))); // NOI18N
         btnSair.setText("SAIR");
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1029,6 +1050,8 @@ public class FormCliente extends javax.swing.JFrame {
 
         // Posiciona o cursor
         txtCnpjCpf.requestFocus();
+        // prepara o combobox
+        comboBox();
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
@@ -1051,6 +1074,8 @@ public class FormCliente extends javax.swing.JFrame {
         btnSalvar.setEnabled(true);
         btnExcluir.setEnabled(false);
         btnAtualizar.setEnabled(false);
+        //atualiza os combobox
+        comboBox();
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -1190,7 +1215,7 @@ public class FormCliente extends javax.swing.JFrame {
             cli.setIdcliente((int) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0));
 
             dao.deleteCliente(cli);
-            
+
             //Reinicia o formulario        
             readTable();
             limpaCampos();
@@ -1277,7 +1302,7 @@ public class FormCliente extends javax.swing.JFrame {
         if (evt.getClickCount() == 2 && (!txtCnpjCpf.getText().isEmpty())) {
             JFileChooser fc = new JFileChooser();
             fc.setDialogTitle("Procurar arquivos");
-            fc.setCurrentDirectory(new File("C:\\Users\\MILANO\\Pictures"));
+            fc.setCurrentDirectory(new File("C:\\Users\\kamil\\Pictures"));
             fc.setFileFilter(new FileFilter() {
 
                 @Override
@@ -1302,7 +1327,7 @@ public class FormCliente extends javax.swing.JFrame {
                 String nomeImagem = System.currentTimeMillis() + ".jpg";
                 lblNomeFoto.setText(nomeImagem);
 
-                File novaImagem = new File("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
+                File novaImagem = new File("C:\\Users\\kamil\\Pictures\\Imagens_ProjetoOs\\" + nomeImagem);
 
                 BufferedImage bi = new BufferedImage(lblFoto.getWidth(), lblFoto.getHeight(), BufferedImage.TYPE_INT_RGB);
                 Graphics2D g2d = bi.createGraphics();
@@ -1394,9 +1419,10 @@ public class FormCliente extends javax.swing.JFrame {
     private void jTableClienteKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableClienteKeyReleased
         // TODO add your handling code here:
         //carrega o combobox cidade com todas as cidades
-        comboBoxCidade();
+        comboBox();
         
-        //As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos
+
+        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
         if (jTableCliente.getSelectedRow() != -1) {
             habilitaCampos();
 
@@ -1406,86 +1432,11 @@ public class FormCliente extends javax.swing.JFrame {
             } else {
                 btnExcluir.setEnabled(false);
             }
-            
+
             btnAtualizar.setEnabled(true);
             btnSalvar.setEnabled(false);
             btnLimpar.setEnabled(false);
-            
-            //Pega dados direto da tabela txtId
-            txtId.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0).toString());
-            txtCnpjCpf.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1).toString());
-            txtNome.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 2).toString());
-            txtContato.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 3).toString());
-            txtCargo.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 4).toString());
-            txtUrl.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 5).toString());
-            txtEmail.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 6).toString());
-            jFormattedTextFone1.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 7).toString());
-            jFormattedTextFone2.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 8).toString());
-            jFormattedTextCelular.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 9).toString());
-            txtObs.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 10).toString());
-
-            txtRua.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 11).toString());
-            txtNumero.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 12).toString());
-            txtComplemento.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 13).toString());
-            txtBairro.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 14).toString());
-            txtReferencia.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 15).toString());
-            jFormattedTextCep.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 16).toString());
-
-            //As linhas abaixo selecionam o estado no combobox baseado na informação da linha selecionada na tabela
-            Estado est = (Estado) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 17);
-            est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
-            jComboBoxEstado.setSelectedIndex(est.getIdestado());
-
-            //As linhas abaixo seleciona a cidade no combobox
-            Cidade cid = (Cidade) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 18);
-            cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
-            jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
-
-            txtGps.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 19).toString());
-
-            Cliente c = new Cliente();
-
-            c.setFoto((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 20));
-            String nomeImagem = c.getFoto();
-
-            if (!nomeImagem.isEmpty()) {
-
-                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
-                lblFoto.setIcon(icone);
-                lblNomeFoto.setText(nomeImagem);
-
-            } else {
-                JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
-
-                //Reinicia label foto 
-                lblNomeFoto.setText("");
-                lblNomeFoto.setEnabled(false);
-                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
-            }
-        }
-        //posiciona o cursor no primeiro campo
-        txtCnpjCpf.requestFocus();
-    }//GEN-LAST:event_jTableClienteKeyReleased
-
-    private void jTableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClienteMouseClicked
-        // TODO add your handling code here:
-        //carrega o combobox cidade com todas as cidades
-        comboBoxCidade();
-        
-        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
-        if (jTableCliente.getSelectedRow() != -1) {
-            habilitaCampos();
-
-             //Prepara bottons
-            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
-                btnExcluir.setEnabled(true);
-            } else {
-                btnExcluir.setEnabled(false);
-            }
-            
-            btnAtualizar.setEnabled(true);
-            btnSalvar.setEnabled(false);
-            btnLimpar.setEnabled(false);
+            btnExcluir.setEnabled(true);
 
             //Pega dados direto da tabela
             txtId.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0).toString());
@@ -1527,7 +1478,7 @@ public class FormCliente extends javax.swing.JFrame {
 
             if (!nomeImagem.isEmpty()) {
 
-                ImageIcon icone = new ImageIcon("C:\\Users\\MILANO\\Pictures\\imagens-Projeto Os2\\" + nomeImagem);
+                ImageIcon icone = new ImageIcon("C:\\Users\\kamil\\Pictures\\Imagens_ProjetoOs\\" + nomeImagem);
                 lblFoto.setIcon(icone);
                 lblNomeFoto.setText(nomeImagem);
 
@@ -1540,19 +1491,92 @@ public class FormCliente extends javax.swing.JFrame {
                 lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
             }
         }
-        //posiciona o cursor no primeiro campo
-        txtCnpjCpf.requestFocus();
+    }//GEN-LAST:event_jTableClienteKeyReleased
+
+    private void jTableClienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableClienteMouseClicked
+        // TODO add your handling code here:
+        //carrega o combobox cidade com todas as cidades
+        comboBox();
+
+        // As linhas abaixo selecionam um item da tabela para ser alterado e copiam o item para os campos.
+        if (jTableCliente.getSelectedRow() != -1) {
+            habilitaCampos();
+
+            //Prepara bottons
+            if (FormMenu.lblUsuario.getText().equals("ADMGERAL")) {
+                btnExcluir.setEnabled(true);
+            } else {
+                btnExcluir.setEnabled(false);
+            }
+
+            btnAtualizar.setEnabled(true);
+            btnSalvar.setEnabled(false);
+            btnLimpar.setEnabled(false);
+            btnExcluir.setEnabled(true);
+
+            //Pega dados direto da tabela
+            txtId.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 0).toString());
+            txtCnpjCpf.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 1).toString());
+            txtNome.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 2).toString());
+            txtContato.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 3).toString());
+            txtCargo.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 4).toString());
+            txtUrl.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 5).toString());
+            txtEmail.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 6).toString());
+            jFormattedTextFone1.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 7).toString());
+            jFormattedTextFone2.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 8).toString());
+            jFormattedTextCelular.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 9).toString());
+            txtObs.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 10).toString());
+
+            txtRua.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 11).toString());
+            txtNumero.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 12).toString());
+            txtComplemento.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 13).toString());
+            txtBairro.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 14).toString());
+            txtReferencia.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 15).toString());
+            jFormattedTextCep.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 16).toString());
+
+            //As linhas abaixo selecionam o estado no combobox baseado na informação da linha selecionada na tabela
+            Estado est = (Estado) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 17);
+            est.setIdestado(Integer.parseInt(String.valueOf(est.getIdestado())));
+            jComboBoxEstado.setSelectedIndex(est.getIdestado());
+
+            //As linhas abaixo seleciona a cidade no combobox
+            Cidade cid = (Cidade) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 18);
+            cid.setIdcidade(Integer.parseInt(String.valueOf(cid.getIdcidade())));
+            jComboBoxCidade.setSelectedIndex(cid.getIdcidade());
+
+            txtGps.setText(jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 19).toString());
+
+            Cliente c = new Cliente();
+//            ClienteDAO dao = new ClienteDAO();
+
+            c.setFoto((String) jTableCliente.getValueAt(jTableCliente.getSelectedRow(), 20));
+            String nomeImagem = c.getFoto();
+
+            if (!nomeImagem.isEmpty()) {
+
+                ImageIcon icone = new ImageIcon("C:\\Users\\kamil\\Pictures\\Imagens_ProjetoOs\\" + nomeImagem);
+                lblFoto.setIcon(icone);
+                lblNomeFoto.setText(nomeImagem);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Não existe Imagem para este registro");
+
+                //Reinicia label foto 
+                lblNomeFoto.setText("");
+                lblNomeFoto.setEnabled(false);
+                lblFoto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")));
+            }
+        }
     }//GEN-LAST:event_jTableClienteMouseClicked
 
     private void jComboBoxEstadoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_jComboBoxEstadoPopupMenuWillBecomeInvisible
         // TODO add your handling code here:
-         // As linhas abaixo fazem a troca dos dados no combobox cidade em função do estado escolhido
+        // As linhas abaixo fazem a troca dos dados no combobox cidade em função do estado escolhido
         if (jComboBoxEstado.getSelectedItem() != "Escolha") {
 
             Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
-
             estado.setIdestado(estado.getIdestado());
-            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
+//            jComboBoxEstado.setSelectedIndex(estado.getIdestado());
 
             CidadeDAO citdao = new CidadeDAO();
             jComboBoxCidade.removeAllItems();
@@ -1560,12 +1584,13 @@ public class FormCliente extends javax.swing.JFrame {
             for (Cidade c : citdao.readComboBoxCidade(estado.getIdestado())) {
                 jComboBoxCidade.addItem(c);
             }
-        } 
+            jComboBoxCidade.requestFocus();
+        }
     }//GEN-LAST:event_jComboBoxEstadoPopupMenuWillBecomeInvisible
 
     private void jComboBoxEstadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxEstadoKeyReleased
         // TODO add your handling code here:
-          // As linhas abaixo fazem a troca dos dados no combobox cidade em função do estado escolhido
+        // As linhas abaixo fazem a troca dos dados no combobox cidade em função do estado escolhido
         if (jComboBoxEstado.getSelectedItem() != "Escolha") {
 
             Estado estado = (Estado) jComboBoxEstado.getSelectedItem();
@@ -1581,6 +1606,13 @@ public class FormCliente extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jComboBoxEstadoKeyReleased
+
+    private void jComboBoxEstadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jComboBoxEstadoKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jComboBoxCidade.requestFocus();
+        }
+    }//GEN-LAST:event_jComboBoxEstadoKeyPressed
 
     /**
      * @param args the command line arguments

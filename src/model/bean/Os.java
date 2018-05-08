@@ -26,6 +26,9 @@ public class Os {
     private String aberta_fech;
     private String dt_fim;
     private String hr_fim;
+    private String interna_externa;
+    private int os_pai;
+    private int os_filha;
     private Tiposerv tiposerv;
     private Cliente cliente;
     private Equipamento equipamento;
@@ -33,7 +36,7 @@ public class Os {
     public Os() {
     }
 
-    public Os(int idos, String data, String nome_cliente, String nome_equip, String defeito, String tecnico, String dt_inicio, String hr_inic, String servico, String uso_peca, String equip_retirado, String obs, String aberta_fech, String dt_fim, String hr_fim, Tiposerv tiposerv, Cliente cliente, Equipamento equipamento) {
+    public Os(int idos, String data, String nome_cliente, String nome_equip, String defeito, String tecnico, String dt_inicio, String hr_inic, String servico, String uso_peca, String equip_retirado, String obs, String aberta_fech, String dt_fim, String hr_fim, String interna_externa, int os_filha, int os_pai, Tiposerv tiposerv, Cliente cliente, Equipamento equipamento) {
         this.idos = idos;
         this.data = data;
         this.nome_cliente = nome_cliente;
@@ -49,12 +52,14 @@ public class Os {
         this.aberta_fech = aberta_fech;
         this.dt_fim = dt_fim;
         this.hr_fim = hr_fim;
+        this.interna_externa = interna_externa;
+        this.os_filha = os_filha;
+        this.os_pai = os_pai;
         this.tiposerv = tiposerv;
         this.cliente = cliente;
         this.equipamento = equipamento;
     }
 
-   
 
     public int getIdos() {
         return idos;
@@ -174,6 +179,30 @@ public class Os {
 
     public void setHr_fim(String hr_fim) {
         this.hr_fim = hr_fim;
+    }
+
+    public String getInterna_externa() {
+        return interna_externa;
+    }
+
+    public void setInterna_externa(String interna_externa) {
+        this.interna_externa = interna_externa;
+    }
+
+    public int getOs_pai() {
+        return os_pai;
+    }
+
+    public void setOs_pai(int os_pai) {
+        this.os_pai = os_pai;
+    }
+    
+    public int getOs_filha() {
+        return os_filha;
+    }
+
+    public void setOs_filha(int os_filha) {
+        this.os_filha = os_filha;
     }
 
     public Tiposerv getTiposerv() {

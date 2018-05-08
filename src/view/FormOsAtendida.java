@@ -251,7 +251,7 @@ public class FormOsAtendida extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("REGISTRO DE ATENDIMENTO DE OS`S");
+        setTitle("FORMUÁRIO DE REGISTRO DE ATENDIMENTO DE OS`S");
         setIconImage(new ImageIcon(getClass().getResource("/imagens/LogoSys270x250.png")).getImage());
 
         btnSalvar.setBackground(new java.awt.Color(0, 153, 153));
